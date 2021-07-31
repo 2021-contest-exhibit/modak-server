@@ -11,8 +11,7 @@ import javax.persistence.Id;
 @Entity
 public class Base {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int contentId;
     private String doNm;
     private String mangeDivNm;
     private String facltNm;
@@ -48,7 +47,6 @@ public class Base {
     private int siteMg2Width;
     private int siteMg1Width;
     private int fireSensorCo;
-    private int contentId;
     private String operPdCl;
     private Double mapY;
     private Double mapX;
@@ -67,5 +65,4 @@ public class Base {
     private String animalCmgCl;
     private int siteMg2Vrticl;
     private String bizrno;
-
 }
