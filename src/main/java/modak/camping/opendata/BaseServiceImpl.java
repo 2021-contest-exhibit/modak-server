@@ -3,6 +3,7 @@ package modak.camping.opendata;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.Data;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 @Service
+@Data
 public class BaseServiceImpl implements BaseService{
+    private final BaseRepository baseRepository;
 
     public String getOpenDataJson() throws Exception {
         String openData = getOpenData();
@@ -52,6 +55,7 @@ public class BaseServiceImpl implements BaseService{
 
         return sb.toString();
     }
+
     private String xmlToJson(String openData) throws JsonProcessingException {
         JSONObject jObject = XML.toJSONObject(openData);
         ObjectMapper mapper = new ObjectMapper();

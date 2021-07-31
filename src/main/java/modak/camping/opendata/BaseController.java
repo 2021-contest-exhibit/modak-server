@@ -11,14 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/base")
 @Data
 public class BaseController {
-    private final BaseRepository baseRepository;
+    private final BaseService baseService;
 
     @PostMapping(value = "")
-    public ResponseEntity PostBase() {
-
-        
-
-        return (ResponseEntity) ResponseEntity.ok();
+    public ResponseEntity PostBase() throws Exception {
+        baseService.getOpenDataJson();
+        return  ResponseEntity.ok("ok");
     }
 
 }
