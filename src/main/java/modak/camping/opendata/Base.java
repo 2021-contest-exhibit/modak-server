@@ -3,12 +3,15 @@ package modak.camping.opendata;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Data
 @Entity
 public class Base {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String doNm;
     private String mangeDivNm;
@@ -63,5 +66,6 @@ public class Base {
     private int toiletCo;
     private String animalCmgCl;
     private int siteMg2Vrticl;
+    private String bizrno;
 
 }

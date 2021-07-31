@@ -27,10 +27,13 @@ public class BaseServiceImpl implements BaseService{
         saveBases(mapList);
     }
     private void saveBases(List<Map<String, Object>> mapList) {
+
         mapList.forEach(map-> {
-            map.forEach((key,value) -> {
-                System.out.println(key + " "+ value);
-            });
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            Base base = objectMapper.convertValue(map, Base.class);
+            baseRepository.save(base);
+
         });
     }
 
