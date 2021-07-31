@@ -13,17 +13,25 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Data
 public class BaseServiceImpl implements BaseService{
     private final BaseRepository baseRepository;
 
-    public String getOpenDataJson() throws Exception {
+    public void getOpenDataJson() throws Exception {
         String openData = getOpenData();
-        String openDataJson = xmlToJson(openData);
-
-        return openDataJson;
+        List<Map<String, Object>> mapList = xmlToListMap(openData);
+        saveBases(mapList);
+    }
+    private void saveBases(List<Map<String, Object>> mapList) {
+        mapList.forEach(map-> {
+            map.forEach((key,value) -> {
+                System.out.println(key + " "+ value);
+            });
+        });
     }
 
     private String getOpenData() throws Exception {
@@ -56,12 +64,21 @@ public class BaseServiceImpl implements BaseService{
         return sb.toString();
     }
 
-    private String xmlToJson(String openData) throws JsonProcessingException {
+    private List<Map<String, Object>> xmlToListMap(String openData) throws JsonProcessingException {
         JSONObject jObject = XML.toJSONObject(openData);
         ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        Object json = mapper.readValue(jObject.toString(), Object.class);
-        String output = mapper.writeValueAsString(json);
-        return output;
+
+
+        List<Map<String, Object>> mapList = (List<Map<String, Object>>)
+                ((Map<String, Object>)
+                        ((Map<String, Object>)
+                                ((Map<String, Object>)
+                                        mapper.readValue(jObject.toString(), Map.class)
+                                                .get("response")
+                                ).get("body")
+                        ).get("items")
+                ).get("item");
+
+        return mapList;
     }
 }
