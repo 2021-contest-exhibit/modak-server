@@ -1,6 +1,9 @@
 package modak.camping.opendata;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +12,9 @@ import javax.persistence.Id;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Base {
     @Id
     private int contentId;
@@ -27,7 +33,8 @@ public class Base {
     private int siteBottomCl4;
     private int siteBottomCl1;
     private int siteBottomCl2;
-    private String tel;
+    @Builder.Default
+    private String tel = "";
     private int allar;
     private String manageSttus;
     private int sitedStnc;
@@ -64,5 +71,6 @@ public class Base {
     private int toiletCo;
     private String animalCmgCl;
     private int siteMg2Vrticl;
-    private String bizrno;
+    @Builder.Default
+    private String bizrno = "";
 }
