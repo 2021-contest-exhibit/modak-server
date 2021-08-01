@@ -2,7 +2,6 @@ package modak.camping.opendata;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.Data;
 import org.json.JSONObject;
 import org.json.XML;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 @Service
 @Data
-public class BaseServiceImpl implements BaseService{
+public class OpendataServiceImpl implements OpendataService {
     private final BaseRepository baseRepository;
 
 
@@ -46,7 +45,7 @@ public class BaseServiceImpl implements BaseService{
         JpaRepository  repo = null;
 
         try{
-            Field field = BaseServiceImpl.class.getDeclaredField(repoName);
+            Field field = OpendataServiceImpl.class.getDeclaredField(repoName);
             repo = (JpaRepository)field.get(this);
 
         } catch(Exception e){
