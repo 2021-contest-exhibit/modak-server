@@ -11,8 +11,8 @@ public class BaseController {
     private final BaseService baseService;
 
     @PostMapping(value = "")
-    public ResponseEntity PostBase(@RequestParam int rangePageNo,
-                                   @RequestParam int numOfRows) throws Exception {
+    public ResponseEntity PostBase(@RequestParam(required = false, defaultValue = "3") int rangePageNo,
+                                   @RequestParam(required = false, defaultValue = "1000") int numOfRows) throws Exception {
         baseService.getOpenDataJson(rangePageNo, numOfRows);
         return  ResponseEntity.ok("ok");
     }

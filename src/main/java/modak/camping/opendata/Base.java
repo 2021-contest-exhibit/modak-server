@@ -42,7 +42,9 @@ public class Base {
     private int manageNmpr;
     private int siteMg1Co;
     private int gnrlSiteCo;
-    private int zipcode;
+    @Builder.Default
+    @Lob
+    private String zipcode = "";
     private String exprnProgrmAt;
     private int extshrCo;
     private int caravSiteCo;
@@ -52,8 +54,10 @@ public class Base {
     private int siteMg1Width;
     private int fireSensorCo;
     private String operPdCl;
-    private Double mapY;
-    private Double mapX;
+    @Builder.Default
+    private String mapY = "";
+    @Builder.Default
+    private String mapX = "";
     private int wtrplCo;
     private String modifiedtime;
     private String sigunguNm;
@@ -93,6 +97,7 @@ public class Base {
     @Builder.Default
     private String lctCl = "";
     @Builder.Default
+    @Lob
     private String resveUrl = "";
     @Builder.Default
     private String facltDivNm = "";
@@ -110,9 +115,22 @@ public class Base {
     @Builder.Default
     private String mgcDiv = "";
     @Builder.Default
+    @Lob
     private String featureNm = "";
     @Builder.Default
+    @Lob
     private String direction = "";
     @Builder.Default
     private String addr2 = "";
+    @Builder.Default
+    private String hvofEnddle = "";
+    @Builder.Default
+    private String hvofBgnde = "";
+    @Builder.Default
+    @Lob
+    private String tooltip = "";
+    @Builder.Default
+    private String glampInnerFclty = "";
+    @Builder.Default
+    private String caravInnerFclty = "";
 }

@@ -26,6 +26,7 @@ public class BaseServiceImpl implements BaseService{
             String openData = getOpenData(pageNo, numOfRows);
             List<Map<String, Object>> mapList = xmlToListMap(openData);
             saveBases(mapList);
+            System.out.println("진행상황" + pageNo);
         }
     }
     private void saveBases(List<Map<String, Object>> mapList) {
