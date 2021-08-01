@@ -14,6 +14,7 @@ import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,14 +22,13 @@ import java.util.Map;
 @Data
 public class OpendataServiceImpl implements OpendataService {
     private final BaseRepository baseRepository;
-
-
+    private final ImageRepository imageRepository;
 
     @Override
-    public void getOpenDataJson(String tableName, int rangePageNo, int numOfRows, int contentId) throws Exception {
+    public void getOpenDataJson(String tableName, int rangePageNo, int numOfRows, Long contentId) throws Exception {
         if(tableName.equals("base")) {
             for (int pageNo = 1; pageNo <= rangePageNo; pageNo++) {
-                String openData = getOpenData(tableName, pageNo, numOfRows, -1);
+                String openData = getOpenData(tableName, pageNo, numOfRows, -1L);
                 List<Map<String, Object>> mapList = xmlToListMap(openData);
                 saveMapList(tableName, mapList);
                 System.out.println("진행상황" + pageNo);
@@ -36,7 +36,11 @@ public class OpendataServiceImpl implements OpendataService {
         } else if(tableName.equals("image")) {
             String openData = getOpenData(tableName, -1, -1, contentId);
             List<Map<String, Object>> mapList = xmlToListMap(openData);
-            System.out.println(mapList);
+            Map<String, Object> map = new HashMap<>();
+            map.put("images", mapList);
+            Image image = new Image(contentId, map);
+            save(tableName,image);
+
         }
     }
 
@@ -81,7 +85,7 @@ public class OpendataServiceImpl implements OpendataService {
         });
     }
 
-    private String getOpenData(String tableName, int pageNo, int numOfRows, int contentId) throws Exception {
+    private String getOpenData(String tableName, int pageNo, int numOfRows, Long contentId) throws Exception {
 
         StringBuilder urlBuilder = null;
         if(tableName.equals("base")) {
@@ -98,7 +102,7 @@ public class OpendataServiceImpl implements OpendataService {
             urlBuilder.append("&" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + URLEncoder.encode("m0tgvXV2adR1HjHBAzM0VCqTBT/lVCphcEKiQ+JVon/neZXUuMfpFlckFIuk+IIH4es/9qQJ354zBjsslknjZw==", "UTF-8")); /*공공데이터포털에서 받은 인증키*/
             urlBuilder.append("&" + URLEncoder.encode("MobileOS", "UTF-8") + "=" + URLEncoder.encode("ETC", "UTF-8")); /*IOS(아이폰),AND(안드로이드),WIN(윈도우폰),ETC*/
             urlBuilder.append("&" + URLEncoder.encode("MobileApp", "UTF-8") + "=" + URLEncoder.encode("camping", "UTF-8")); /*서비스명=어플명*/
-            urlBuilder.append("&" + URLEncoder.encode("contentId","UTF-8") + "=" + URLEncoder.encode(Integer.toString(contentId), "UTF-8")); /*콘텐츠 ID*/
+            urlBuilder.append("&" + URLEncoder.encode("contentId","UTF-8") + "=" + URLEncoder.encode(Long.toString(contentId), "UTF-8")); /*콘텐츠 ID*/
         }
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

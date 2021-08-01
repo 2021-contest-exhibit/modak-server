@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import modak.camping.util.HashMapConverter;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Entity
@@ -17,8 +21,7 @@ import java.util.List;
 public class Image implements Opendata{
     @Id
     private Long contentId;
-    private String serialnum;
-    private String imageUrl;
-    private String createdtime;
-    private String modifiedtime;
+    @Lob
+    @Convert(converter = HashMapConverter.class)
+    private Map<String, Object> jsonData;
 }
