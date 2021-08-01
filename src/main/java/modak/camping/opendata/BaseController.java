@@ -2,10 +2,7 @@ package modak.camping.opendata;
 
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/base")
@@ -14,8 +11,9 @@ public class BaseController {
     private final BaseService baseService;
 
     @PostMapping(value = "")
-    public ResponseEntity PostBase() throws Exception {
-        baseService.getOpenDataJson();
+    public ResponseEntity PostBase(@RequestParam int rangePageNo,
+                                   @RequestParam int numOfRows) throws Exception {
+        baseService.getOpenDataJson(rangePageNo, numOfRows);
         return  ResponseEntity.ok("ok");
     }
 

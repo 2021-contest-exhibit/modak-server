@@ -1,5 +1,5 @@
 package modak.camping.opendata;
 
 public interface BaseService {
-    void getOpenDataJson() throws Exception;
+    void getOpenDataJson(int rangePageNo, int numOfRows) throws Exception;
 }
