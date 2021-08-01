@@ -6,10 +6,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.Data;
 import org.json.JSONObject;
 import org.json.XML;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -21,6 +23,9 @@ import java.util.Map;
 public class BaseServiceImpl implements BaseService{
     private final BaseRepository baseRepository;
 
+
+
+    @Override
     public void getOpenDataJson(int rangePageNo, int numOfRows) throws Exception {
         for(int pageNo=1; pageNo<= rangePageNo; pageNo++) {
             String openData = getOpenData(pageNo, numOfRows);
@@ -29,6 +34,30 @@ public class BaseServiceImpl implements BaseService{
             System.out.println("진행상황" + pageNo);
         }
     }
+
+    @Override
+    public List findAll(String tableName) {
+        tableName = tableName + "Repository";
+        JpaRepository jpaRepository = (JpaRepository) getJpaRepositoryDynamic(tableName);
+        return jpaRepository.findAll();
+    }
+
+    private JpaRepository getJpaRepositoryDynamic(String repoName){
+        JpaRepository  repo = null;
+
+        try{
+            Field field = BaseServiceImpl.class.getDeclaredField(repoName);
+            repo = (JpaRepository)field.get(this);
+
+        } catch(Exception e){
+            e.printStackTrace();
+        } finally {
+
+            return repo;
+            // null pointer exception 주의..
+        }
+    }
+
     private void saveBases(List<Map<String, Object>> mapList) {
 
         mapList.forEach(map-> {
