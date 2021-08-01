@@ -14,7 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Base {
     @Id
-    private int contentId;
+    private Long contentId;
     private String doNm;
     @Builder.Default
     private String mangeDivNm = "";
