@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -73,4 +70,49 @@ public class Base {
     private int siteMg2Vrticl;
     @Builder.Default
     private String bizrno = "";
+    @Builder.Default
+    private String posblFcltyCl = "";
+    @Builder.Default
+    private String tourEraCl = "";
+    @Builder.Default
+    private String sbrsEtc = "";
+    @Builder.Default
+    private String posblFcltyEtc = "";
+    @Builder.Default
+    private String sbrsCl = "";
+    @Builder.Default
+    private String eqpmnLendCl = "";
+    @Builder.Default
+    private String exprnProgrm = "";
+    @Builder.Default
+    private String clturEvent = "";
+    @Builder.Default
+    private String themaEnvrnCl = "";
+    @Builder.Default
+    private String firstImageUrl = "";
+    @Builder.Default
+    private String lctCl = "";
+    @Builder.Default
+    private String resveUrl = "";
+    @Builder.Default
+    private String facltDivNm = "";
+    @Builder.Default
+    private String trsagntNo = "";
+    @Builder.Default
+    private String lineIntro = "";
+    @Builder.Default
+    private String resveCl = "";
+    @Builder.Default
+    private String homepage = "";
+    @Builder.Default
+    @Lob
+    private String intro = "";
+    @Builder.Default
+    private String mgcDiv = "";
+    @Builder.Default
+    private String featureNm = "";
+    @Builder.Default
+    private String direction = "";
+    @Builder.Default
+    private String addr2 = "";
 }
