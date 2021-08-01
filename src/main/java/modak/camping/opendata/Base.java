@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Base {
+public class Base implements Opendata{
     @Id
     private Long contentId;
     private String doNm;

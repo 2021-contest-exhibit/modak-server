@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Image {
+public class Image implements Opendata{
     @Id
     private Long contentId;
     private String serialnum;

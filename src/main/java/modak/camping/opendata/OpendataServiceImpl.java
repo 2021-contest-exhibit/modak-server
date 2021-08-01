@@ -25,11 +25,11 @@ public class OpendataServiceImpl implements OpendataService {
 
 
     @Override
-    public void getOpenDataJson(int rangePageNo, int numOfRows) throws Exception {
+    public void getOpenDataJson(String tableName, int rangePageNo, int numOfRows) throws Exception {
         for(int pageNo=1; pageNo<= rangePageNo; pageNo++) {
             String openData = getOpenData(pageNo, numOfRows);
             List<Map<String, Object>> mapList = xmlToListMap(openData);
-            saveBases(mapList);
+            saveMapList(tableName, mapList);
             System.out.println("진행상황" + pageNo);
         }
     }
@@ -39,6 +39,13 @@ public class OpendataServiceImpl implements OpendataService {
         tableName = tableName + "Repository";
         JpaRepository jpaRepository = (JpaRepository) getJpaRepositoryDynamic(tableName);
         return jpaRepository.findAll();
+    }
+
+    @Override
+    public void save(String tableName, Opendata opendata) {
+        tableName = tableName + "Repository";
+        JpaRepository jpaRepository = (JpaRepository) getJpaRepositoryDynamic(tableName);
+        jpaRepository.save(opendata);
     }
 
     private JpaRepository getJpaRepositoryDynamic(String repoName){
@@ -57,13 +64,13 @@ public class OpendataServiceImpl implements OpendataService {
         }
     }
 
-    private void saveBases(List<Map<String, Object>> mapList) {
+    private void saveMapList(String tableName, List<Map<String, Object>> mapList) {
 
         mapList.forEach(map-> {
 
             ObjectMapper objectMapper = new ObjectMapper();
             Base base = objectMapper.convertValue(map, Base.class);
-            baseRepository.save(base);
+            this.save(tableName, base);
 
         });
     }
