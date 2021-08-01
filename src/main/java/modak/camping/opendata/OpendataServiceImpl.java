@@ -34,13 +34,18 @@ public class OpendataServiceImpl implements OpendataService {
                 System.out.println("진행상황" + pageNo);
             }
         } else if(tableName.equals("image")) {
-            String openData = getOpenData(tableName, -1, -1, contentId);
-            List<Map<String, Object>> mapList = xmlToListMap(openData);
-            Map<String, Object> map = new HashMap<>();
-            map.put("images", mapList);
-            Image image = new Image(contentId, map);
-            save(tableName,image);
-
+            if(contentId == -1L) {
+                List<Base> baseList = this.findAll("base");
+                baseList.forEach(base -> {
+                    try {
+                        getImageDataJson(tableName, base.getContentId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            } else {
+                getImageDataJson(tableName, contentId);
+            }
         }
     }
 
@@ -56,6 +61,15 @@ public class OpendataServiceImpl implements OpendataService {
         tableName = tableName + "Repository";
         JpaRepository jpaRepository = (JpaRepository) getJpaRepositoryDynamic(tableName);
         jpaRepository.save(opendata);
+    }
+
+    private void getImageDataJson(String tableName, Long contentId) throws Exception {
+        String openData = getOpenData(tableName, -1, -1, contentId);
+        List<Map<String, Object>> mapList = xmlToListMap(openData);
+        Map<String, Object> map = new HashMap<>();
+        map.put("images", mapList);
+        Image image = new Image(contentId, map);
+        save(tableName, image);
     }
 
     private JpaRepository getJpaRepositoryDynamic(String repoName){
