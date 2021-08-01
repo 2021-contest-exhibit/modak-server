@@ -16,7 +16,8 @@ public class Base {
     @Id
     private int contentId;
     private String doNm;
-    private String mangeDivNm;
+    @Builder.Default
+    private String mangeDivNm = "";
     private String facltNm;
     private String caravAcmpnyAt;
     private String insrncAt;
@@ -36,9 +37,11 @@ public class Base {
     private String manageSttus;
     private int sitedStnc;
     private int indvdlCaravSiteCo;
-    private String operDeCl;
+    @Builder.Default
+    private String operDeCl = "";
     private int siteMg3Co;
-    private String brazierCl;
+    @Builder.Default
+    private String brazierCl = "";
     private int manageNmpr;
     private int siteMg1Co;
     private int gnrlSiteCo;
@@ -53,24 +56,28 @@ public class Base {
     private int siteMg2Width;
     private int siteMg1Width;
     private int fireSensorCo;
-    private String operPdCl;
+    @Builder.Default
+    private String operPdCl = "";
     @Builder.Default
     private String mapY = "";
     @Builder.Default
     private String mapX = "";
     private int wtrplCo;
     private String modifiedtime;
-    private String sigunguNm;
+    @Builder.Default
+    private String sigunguNm = "";
     private int siteMg1Vrticl;
     private int frprvtWrppCo;
-    private String prmisnDe;
+    @Builder.Default
+    private String prmisnDe = "";
     private String trlerAcmpnyAt;
     private String addr1;
     private String clturEventAt;
     private String createdtime;
     private int siteMg2Co;
     private int toiletCo;
-    private String animalCmgCl;
+    @Builder.Default
+    private String animalCmgCl = "";
     private int siteMg2Vrticl;
     @Builder.Default
     private String bizrno = "";
