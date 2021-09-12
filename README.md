@@ -8,7 +8,7 @@ docker run -d -p 3306:3306 \
 -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
 --name mysql \
 -v /Users/singyeongdeog/Documents/mysql:/var/lib/mysql \
-mysql:5.7
+mysql:5.7 --character-set-server=utf8 --collation-server=utf8_unicode_ci 
 ```
  
 - 도커 mysql 접속
