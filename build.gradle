@@ -6,7 +6,7 @@ plugins {
 
 group = 'modak'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '8'
 
 configurations {
 	compileOnly {
@@ -29,6 +29,7 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa"
 	implementation "org.springframework.boot:spring-boot-starter-jdbc:2.4.0"
 	implementation "mysql:mysql-connector-java:8.0.13"
+	implementation "com.google.firebase:firebase-admin:6.12.1"
 }
 
 test {
