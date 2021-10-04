@@ -1,4 +1,6 @@
 package modak.camping.modakdata;
 
-public interface CampingRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CampingRepository extends JpaRepository<Camping, String> {
 }

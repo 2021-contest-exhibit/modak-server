@@ -4,24 +4,26 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import lombok.RequiredArgsConstructor;
 import modak.camping.opendata.Base;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ModakdataServiceImpl implements ModakdataService {
-    private static final String campingName = "camping";
+    private final CampingRepository campingRepository;
+    private final CampingFirestoreRepository campingFirestoreRepository;
 
     @Override
     public String saveCamping(Camping camping) throws Exception {
-        Firestore firestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> apiFuture = firestore
-                .collection(campingName)
-                .document(camping.getContentId())
-                .set(camping);
-        return apiFuture.get().getUpdateTime().toString();
+        campingFirestoreRepository.save(camping);
+        campingRepository.save(camping);
+
+        return "ok";
     }
 
     @Override
