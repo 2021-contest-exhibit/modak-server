@@ -1,6 +1,5 @@
 package modak.camping.modakdata.environment;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import modak.camping.modakdata.camping.Camping;
 
@@ -19,7 +18,6 @@ public class Environment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "content_id")
-    @JsonIgnore
     private Camping camping;
 
     public Environment(String name,Camping camping) {
