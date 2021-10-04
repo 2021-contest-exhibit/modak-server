@@ -75,6 +75,6 @@ public class ModakdataServiceImpl implements ModakdataService {
 
     @Override
     public Set<String> findCampingOperationType() {
-        return campingRepository.findCampingOperionaType();
+        return campingRepository.findCampingOperationType();
     }
 }
