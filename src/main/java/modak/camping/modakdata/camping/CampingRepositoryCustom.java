@@ -1,4 +1,4 @@
-package modak.camping.modakdata;
+package modak.camping.modakdata.camping;
 
 import java.util.List;
 import java.util.Set;

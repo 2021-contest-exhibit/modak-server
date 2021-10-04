@@ -1,10 +1,8 @@
 package modak.camping;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import modak.camping.modakdata.Camping;
+import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.QCamping;
-import modak.camping.opendata.Base;
-import modak.camping.opendata.QBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

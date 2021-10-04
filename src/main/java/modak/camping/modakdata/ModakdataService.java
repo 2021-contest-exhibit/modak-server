@@ -1,5 +1,6 @@
 package modak.camping.modakdata;
 
+import modak.camping.modakdata.camping.Camping;
 import modak.camping.opendata.Base;
 
 import java.util.List;

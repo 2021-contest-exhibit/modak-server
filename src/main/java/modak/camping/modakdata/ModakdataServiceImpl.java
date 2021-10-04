@@ -1,12 +1,10 @@
 package modak.camping.modakdata;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.cloud.FirestoreClient;
 import lombok.RequiredArgsConstructor;
+import modak.camping.modakdata.camping.Camping;
+import modak.camping.modakdata.camping.CampingFirestoreRepository;
+import modak.camping.modakdata.camping.CampingRepository;
 import modak.camping.opendata.Base;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package modak.camping.modakdata;
+package modak.camping.modakdata.camping;
 
 
 import com.google.api.core.ApiFuture;
