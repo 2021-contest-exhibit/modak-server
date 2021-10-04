@@ -44,7 +44,8 @@ public class ModakdataServiceImpl implements ModakdataService {
                         base.getPosblFcltyCl(),
                         base.getSbrsCl(),
                         base.getMapX(),
-                        base.getMapY()
+                        base.getMapY(),
+                        base.getFacltDivNm()
                 ))
                 .collect(Collectors.toList());
 

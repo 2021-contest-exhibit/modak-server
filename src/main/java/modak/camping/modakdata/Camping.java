@@ -25,8 +25,7 @@ public class Camping {
     private String reservationWay; // resveCl (예약방법)
     private String nearbyFacilitiesAvailable; // posblFcltyCl (주변이용가능시설)
     private String facilities; // sbrs_cl (캠핑장 시설정보)
-    // 나머지 뭘넣어야할지 고민..
-
     private String longitude; // mapx (경도)
     private String latitude; // mapy (위도)
+    private String operationType; // faclt_div_nm (운영형태, 사업주체 구분)
 }
