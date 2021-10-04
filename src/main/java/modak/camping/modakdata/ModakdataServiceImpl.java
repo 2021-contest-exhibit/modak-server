@@ -34,7 +34,7 @@ public class ModakdataServiceImpl implements ModakdataService {
         baseList.stream()
                 .forEach(base -> {
                     Camping camping = new Camping(
-                            Long.toString(base.getContentId()),
+                            base.getContentId(),
                             base.getFacltNm(),
                             0L,
                             base.getAddr1() + "\t" + base.getAddr2(),

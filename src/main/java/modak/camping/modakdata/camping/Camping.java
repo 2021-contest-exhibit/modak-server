@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 public class Camping {
     @Id
-    private String contentId; // contentId
+    private Long contentId; // contentId
     private String name; // facltNm
     private Long viewCount; // X
     private String addr; // addr1 + \t + addr2
@@ -35,7 +35,7 @@ public class Camping {
     @OneToMany(mappedBy = "camping")
     private List<Environment> environments = new ArrayList<>(); // lct_cl (캠핑장 환경)
 
-    public Camping(String contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String facilities, String longitude, String latitude, String operationType) {
+    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String facilities, String longitude, String latitude, String operationType) {
         this.contentId = contentId;
         this.name = name;
         this.viewCount = viewCount;
