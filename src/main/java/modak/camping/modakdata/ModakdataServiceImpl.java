@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.camping.CampingFirestoreRepository;
 import modak.camping.modakdata.camping.CampingRepository;
+import modak.camping.modakdata.dto.CampingSearchCondition;
 import modak.camping.modakdata.environment.Environment;
 import modak.camping.modakdata.environment.EnvironmentRepository;
 import modak.camping.opendata.Base;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -92,5 +95,10 @@ public class ModakdataServiceImpl implements ModakdataService {
     @Override
     public Set<String> findEnvironmentName() {
         return environmentRepository.findName();
+    }
+
+    @Override
+    public Page<Camping> findAllCampingPage(CampingSearchCondition campingSearchCondition, Pageable pageable) {
+        return campingRepository.findAll(campingSearchCondition, pageable);
     }
 }
