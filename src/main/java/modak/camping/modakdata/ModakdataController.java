@@ -37,4 +37,11 @@ public class ModakdataController {
         return new ResponseDto(campingAddrSet);
     }
 
+    @GetMapping("/campings/groups/operation-type")
+    public ResponseDto findCampingOperationType() {
+        Set<String> campingOperationTypeSet = modakdataService.findCampingOperationType();
+        return new ResponseDto(campingOperationTypeSet);
+    }
+
+
 }

@@ -72,4 +72,9 @@ public class ModakdataServiceImpl implements ModakdataService {
 
         return campingAddrSet;
     }
+
+    @Override
+    public Set<String> findCampingOperationType() {
+        return campingRepository.findCampingOperionaType();
+    }
 }
