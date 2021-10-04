@@ -1,14 +1,15 @@
 package modak.camping.modakdata;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.cloud.FirestoreClient;
 import lombok.RequiredArgsConstructor;
+import modak.camping.modakdata.camping.Camping;
+import modak.camping.modakdata.camping.CampingFirestoreRepository;
+import modak.camping.modakdata.camping.CampingRepository;
+import modak.camping.modakdata.environment.Environment;
+import modak.camping.modakdata.environment.EnvironmentRepository;
 import modak.camping.opendata.Base;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,10 +19,11 @@ import java.util.stream.Collectors;
 public class ModakdataServiceImpl implements ModakdataService {
     private final CampingRepository campingRepository;
     private final CampingFirestoreRepository campingFirestoreRepository;
+    private final EnvironmentRepository environmentRepository;
 
     @Override
     public String saveCamping(Camping camping) throws Exception {
-        campingFirestoreRepository.save(camping);
+//        campingFirestoreRepository.save(camping);
         campingRepository.save(camping);
 
         return "ok";
@@ -29,33 +31,42 @@ public class ModakdataServiceImpl implements ModakdataService {
 
     @Override
     public String saveCampings(List<Base> baseList) {
-        List<Camping> campingList = baseList.stream()
-                .map(base -> new Camping(
-                        Long.toString(base.getContentId()),
-                        base.getFacltNm(),
-                        0L,
-                        base.getAddr1() + "\t" + base.getAddr2(),
-                        base.getTel(),
-                        base.getLctCl(),
-                        base.getInduty(),
-                        base.getOperPdCl(),
-                        base.getOperDeCl(),
-                        base.getResveCl(),
-                        base.getPosblFcltyCl(),
-                        base.getSbrsCl(),
-                        base.getMapX(),
-                        base.getMapY(),
-                        base.getFacltDivNm()
-                ))
-                .collect(Collectors.toList());
+        baseList.stream()
+                .forEach(base -> {
+                    Camping camping = new Camping(
+                            base.getContentId(),
+                            base.getFacltNm(),
+                            0L,
+                            base.getAddr1() + "\t" + base.getAddr2(),
+                            base.getTel(),
+                            base.getInduty(),
+                            base.getOperPdCl(),
+                            base.getOperDeCl(),
+                            base.getResveCl(),
+                            base.getPosblFcltyCl(),
+                            base.getSbrsCl(),
+                            base.getMapX(),
+                            base.getMapY(),
+                            base.getFacltDivNm()
+                    );
 
-        campingList.stream().forEach(camping -> {
-            try {
-                saveCamping(camping);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+                    try {
+                        saveCamping(camping);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    if(!base.getLctCl().contains(",")) return;
+
+                    Arrays.stream(base.getLctCl().split(",")).forEach(ev -> {
+
+                        Environment environment = new Environment(ev, camping);
+                        environmentRepository.save(environment);
+                    });
+
+                });
+
+
 
         return "ok";
     }
@@ -76,5 +87,10 @@ public class ModakdataServiceImpl implements ModakdataService {
     @Override
     public Set<String> findCampingOperationType() {
         return campingRepository.findCampingOperationType();
+    }
+
+    @Override
+    public Set<String> findEnvironmentName() {
+        return environmentRepository.findName();
     }
 }

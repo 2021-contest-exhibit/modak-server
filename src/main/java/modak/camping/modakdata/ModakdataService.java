@@ -1,5 +1,6 @@
 package modak.camping.modakdata;
 
+import modak.camping.modakdata.camping.Camping;
 import modak.camping.opendata.Base;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface ModakdataService {
     String saveCampings(List<Base> baseList);
     Set<String> findCampingAddr();
     Set<String> findCampingOperationType();
+    Set<String> findEnvironmentName();
 }

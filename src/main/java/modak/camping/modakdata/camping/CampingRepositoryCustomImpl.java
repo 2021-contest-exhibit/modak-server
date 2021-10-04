@@ -1,7 +1,6 @@
-package modak.camping.modakdata;
+package modak.camping.modakdata.camping;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -9,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static modak.camping.modakdata.QCamping.*;
+import static modak.camping.modakdata.camping.QCamping.*;
 
 public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
 

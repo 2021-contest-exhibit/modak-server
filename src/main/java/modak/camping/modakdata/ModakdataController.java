@@ -1,6 +1,7 @@
 package modak.camping.modakdata;
 
 import lombok.Data;
+import modak.camping.modakdata.camping.Camping;
 import modak.camping.opendata.Base;
 import modak.camping.opendata.OpendataService;
 import modak.camping.response.ResponseDto;
@@ -8,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/modak")
@@ -41,6 +40,12 @@ public class ModakdataController {
     public ResponseDto findCampingOperationType() {
         Set<String> campingOperationTypeSet = modakdataService.findCampingOperationType();
         return new ResponseDto(campingOperationTypeSet);
+    }
+
+    @GetMapping("/campings/groups/environment")
+    public ResponseDto findCampingEnvironment() {
+        Set<String> campingEnvironmentSet = modakdataService.findEnvironmentName();
+        return new ResponseDto(campingEnvironmentSet);
     }
 
 

@@ -1,4 +1,4 @@
-package modak.camping.modakdata;
+package modak.camping.modakdata.camping;
 
 
 import com.google.api.core.ApiFuture;
@@ -17,7 +17,7 @@ public class CampingFirestoreRepository {
         Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> apiFuture = firestore
                 .collection(campingName)
-                .document(camping.getContentId())
+                .document(Long.toString(camping.getContentId()))
                 .set(camping);
 
 
