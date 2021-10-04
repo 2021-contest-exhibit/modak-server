@@ -2,12 +2,17 @@ package modak.camping.modakdata;
 
 import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 @Getter
-@Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Setter
 public class Camping {
+    @Id
     private String contentId; // contentId
     private String name; // facltNm
     private Long viewCount; // X
