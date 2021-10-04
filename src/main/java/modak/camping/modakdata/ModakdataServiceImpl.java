@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,5 +57,18 @@ public class ModakdataServiceImpl implements ModakdataService {
         });
 
         return "ok";
+    }
+
+    @Override
+    public Set<String> findCampingAddr() {
+        List<String> campingAddrList = campingRepository.findCampingAddr();
+
+        Set<String> campingAddrSet = campingAddrList
+                .stream()
+                .map(addr -> addr.split(" ")[0])
+                .filter(addr -> addr.length() < 10) // 이상하게 들어가 있는 데이터 제거
+                .collect(Collectors.toSet());
+
+        return campingAddrSet;
     }
 }
