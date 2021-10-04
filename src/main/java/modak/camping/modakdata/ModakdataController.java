@@ -2,9 +2,12 @@ package modak.camping.modakdata;
 
 import lombok.Data;
 import modak.camping.modakdata.camping.Camping;
+import modak.camping.modakdata.dto.CampingSearchCondition;
 import modak.camping.opendata.Base;
 import modak.camping.opendata.OpendataService;
 import modak.camping.response.ResponseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +49,11 @@ public class ModakdataController {
     public ResponseDto findCampingEnvironment() {
         Set<String> campingEnvironmentSet = modakdataService.findEnvironmentName();
         return new ResponseDto(campingEnvironmentSet);
+    }
+
+    @GetMapping("/campings")
+    public Page findCampings(@RequestBody CampingSearchCondition condition, Pageable pageable) {
+        return modakdataService.findAllCampingPage(condition, pageable);
     }
 
 
