@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static modak.camping.modakdata.QCamping.*;
+import static modak.camping.modakdata.camping.QCamping.*;
 
 public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
 

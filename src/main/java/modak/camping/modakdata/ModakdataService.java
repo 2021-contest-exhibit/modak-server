@@ -11,4 +11,5 @@ public interface ModakdataService {
     String saveCampings(List<Base> baseList);
     Set<String> findCampingAddr();
     Set<String> findCampingOperationType();
+    Set<String> findEnvironmentName();
 }
