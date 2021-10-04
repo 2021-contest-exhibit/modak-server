@@ -9,4 +9,5 @@ public interface ModakdataService {
     String saveCamping(Camping camping) throws Exception;
     String saveCampings(List<Base> baseList);
     Set<String> findCampingAddr();
+    Set<String> findCampingOperationType();
 }

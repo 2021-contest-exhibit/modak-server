@@ -44,7 +44,8 @@ public class ModakdataServiceImpl implements ModakdataService {
                         base.getPosblFcltyCl(),
                         base.getSbrsCl(),
                         base.getMapX(),
-                        base.getMapY()
+                        base.getMapY(),
+                        base.getFacltDivNm()
                 ))
                 .collect(Collectors.toList());
 
@@ -70,5 +71,10 @@ public class ModakdataServiceImpl implements ModakdataService {
                 .collect(Collectors.toSet());
 
         return campingAddrSet;
+    }
+
+    @Override
+    public Set<String> findCampingOperationType() {
+        return campingRepository.findCampingOperionaType();
     }
 }
