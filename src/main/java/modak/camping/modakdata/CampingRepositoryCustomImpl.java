@@ -29,7 +29,7 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
     }
 
     @Override
-    public Set<String> findCampingOperionaType() {
+    public Set<String> findCampingOperationType() {
         return queryFactory
                 .select(camping.operationType)
                 .from(camping)
