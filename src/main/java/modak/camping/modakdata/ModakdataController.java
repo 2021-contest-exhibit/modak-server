@@ -32,20 +32,20 @@ public class ModakdataController {
         return modakdataService.saveCampings(baseList);
     }
 
-    @GetMapping("/campings/groups/region")
+    @GetMapping("/campings/regions")
     public ResponseDto findCampingRegion() {
         Set<String> campingAddrSet = modakdataService.findCampingAddr();
 
         return new ResponseDto(campingAddrSet);
     }
 
-    @GetMapping("/campings/groups/operation-type")
+    @GetMapping("/campings/operation-types")
     public ResponseDto findCampingOperationType() {
         Set<String> campingOperationTypeSet = modakdataService.findCampingOperationType();
         return new ResponseDto(campingOperationTypeSet);
     }
 
-    @GetMapping("/campings/groups/environment")
+    @GetMapping("/campings/environments")
     public ResponseDto findCampingEnvironment() {
         Set<String> campingEnvironmentSet = modakdataService.findEnvironmentName();
         return new ResponseDto(campingEnvironmentSet);
