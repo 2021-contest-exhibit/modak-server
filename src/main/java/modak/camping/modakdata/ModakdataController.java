@@ -4,6 +4,7 @@ import lombok.Data;
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.dto.CampingSearchCondition;
 import modak.camping.opendata.Base;
+import modak.camping.opendata.Image;
 import modak.camping.opendata.OpendataService;
 import modak.camping.response.ResponseDto;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/modak")
@@ -29,7 +32,9 @@ public class ModakdataController {
     @PostMapping("/campings")
     public String saveCampings() throws Exception {
         List<Base> baseList = opendataService.findAll("base");
-        return modakdataService.saveCampings(baseList);
+        Map<Long, List<Image>> imageMap = ( (List<Image>) opendataService.findAll("image") ).stream()
+                .collect(Collectors.groupingBy(Image::getContentId));
+        return modakdataService.saveCampings(baseList, imageMap);
     }
 
     @GetMapping("/campings/regions")
