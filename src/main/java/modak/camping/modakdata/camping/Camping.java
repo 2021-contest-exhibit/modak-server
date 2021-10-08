@@ -3,6 +3,7 @@ package modak.camping.modakdata.camping;
 import lombok.*;
 import modak.camping.modakdata.environment.Environment;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -36,10 +37,10 @@ public class Camping {
     @OneToMany(mappedBy = "camping")
     private List<Environment> environments = new ArrayList<>(); // lct_cl (캠핑장 환경)
 
-    @OneToMany(mappedBy = "camping")
+    @OneToMany(mappedBy = "camping", cascade = CascadeType.ALL)
     private List<CampingImage> campingImages = new ArrayList<>(); // 이미지
 
-    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String facilities, String longitude, String latitude, String operationType, CampingImage... campingImages) {
+    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String facilities, String longitude, String latitude, String operationType, List<CampingImage> campingImages) {
         this.contentId = contentId;
         this.name = name;
         this.viewCount = viewCount;
@@ -54,7 +55,7 @@ public class Camping {
         this.longitude = longitude;
         this.latitude = latitude;
         this.operationType = operationType;
-        Arrays.stream(campingImages).forEach(this::addCampingImage);
+        campingImages.forEach(this::addCampingImage);
     }
 
     //==연관관계 메서드==//
