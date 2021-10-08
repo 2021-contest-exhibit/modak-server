@@ -24,4 +24,8 @@ public class Image implements Opendata{
     @Lob
     @Convert(converter = HashMapConverter.class)
     private Map<String, Object> jsonData;
+
+    public List<Map<String,Object>> getJsonDataToListMap() {
+        return (List<Map<String, Object>>) jsonData.get("images");
+    }
 }

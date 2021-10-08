@@ -1,20 +1,17 @@
 package modak.camping.modakdata;
 
 import lombok.RequiredArgsConstructor;
-import modak.camping.modakdata.camping.Camping;
-import modak.camping.modakdata.camping.CampingFirestoreRepository;
-import modak.camping.modakdata.camping.CampingRepository;
+import modak.camping.modakdata.camping.*;
 import modak.camping.modakdata.dto.CampingSearchCondition;
 import modak.camping.modakdata.environment.Environment;
 import modak.camping.modakdata.environment.EnvironmentRepository;
 import modak.camping.opendata.Base;
+import modak.camping.opendata.Image;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,9 +30,20 @@ public class ModakdataServiceImpl implements ModakdataService {
     }
 
     @Override
-    public String saveCampings(List<Base> baseList) {
+    public String saveCampings(List<Base> baseList, Map<Long, List<Image>> imageMap) {
         baseList.stream()
                 .forEach(base -> {
+
+                    List<Image> imageList = imageMap.get(base.getContentId());
+                    List<CampingImage> campingImageList;
+
+                    if(imageList == null ) {
+                        campingImageList = new ArrayList<>();
+                    } else {
+                        List<Map<String, Object>> jsonDataToListMap = imageMap.get(base.getContentId()).get(0).getJsonDataToListMap();
+                        campingImageList = listMapToCampingImageList(jsonDataToListMap);
+                    }
+
                     Camping camping = new Camping(
                             base.getContentId(),
                             base.getFacltNm(),
@@ -50,8 +58,10 @@ public class ModakdataServiceImpl implements ModakdataService {
                             base.getSbrsCl(),
                             base.getMapX(),
                             base.getMapY(),
-                            base.getFacltDivNm()
+                            base.getFacltDivNm(),
+                            campingImageList
                     );
+
 
                     try {
                         saveCamping(camping);
@@ -72,6 +82,20 @@ public class ModakdataServiceImpl implements ModakdataService {
 
 
         return "ok";
+    }
+
+    private List<CampingImage> listMapToCampingImageList(List<Map<String,Object>> listMap) {
+
+        List<CampingImage> campingImageList = listMap.stream()
+                .map(hashMap -> new CampingImage(
+                        String.valueOf( hashMap.get("serialnum")) ,
+                        String.valueOf( hashMap.get("modifiedtime") ),
+                        String.valueOf( hashMap.get("imageUrl"))
+                        )
+                )
+                .collect(Collectors.toList());
+
+        return campingImageList;
     }
 
     @Override
