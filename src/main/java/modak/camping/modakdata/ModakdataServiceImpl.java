@@ -50,7 +50,8 @@ public class ModakdataServiceImpl implements ModakdataService {
                             base.getSbrsCl(),
                             base.getMapX(),
                             base.getMapY(),
-                            base.getFacltDivNm()
+                            base.getFacltDivNm(),
+                            null
                     );
 
                     try {

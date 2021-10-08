@@ -145,6 +145,16 @@ public class OpendataServiceImpl implements OpendataService {
         ObjectMapper mapper = new ObjectMapper();
 
 
+        System.out.println((Map<String, Object>)
+                mapper.readValue(jObject.toString(), Map.class)
+                        .get("response"));
+
+//        Map<String,Object> bodyMap = (Map<String, Object>) ((Map<String, Object>)
+//                mapper.readValue(jObject.toString(), Map.class)
+//                        .get("response")
+//        ).get("body");
+
+
         List<Map<String, Object>> mapList = (List<Map<String, Object>>)
                 ((Map<String, Object>)
                         ((Map<String, Object>)

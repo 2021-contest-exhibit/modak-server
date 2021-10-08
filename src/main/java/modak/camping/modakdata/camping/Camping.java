@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -35,7 +36,10 @@ public class Camping {
     @OneToMany(mappedBy = "camping")
     private List<Environment> environments = new ArrayList<>(); // lct_cl (캠핑장 환경)
 
-    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String facilities, String longitude, String latitude, String operationType) {
+    @OneToMany(mappedBy = "camping")
+    private List<CampingImage> campingImages = new ArrayList<>(); // 이미지
+
+    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String facilities, String longitude, String latitude, String operationType, CampingImage... campingImages) {
         this.contentId = contentId;
         this.name = name;
         this.viewCount = viewCount;
@@ -50,5 +54,12 @@ public class Camping {
         this.longitude = longitude;
         this.latitude = latitude;
         this.operationType = operationType;
+        Arrays.stream(campingImages).forEach(this::addCampingImage);
+    }
+
+    //==연관관계 메서드==//
+    public void addCampingImage(CampingImage campingImage) {
+        this.campingImages.add(campingImage);
+        campingImage.assignCamping(this);
     }
 }
