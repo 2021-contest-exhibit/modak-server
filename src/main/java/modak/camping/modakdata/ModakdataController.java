@@ -57,8 +57,12 @@ public class ModakdataController {
     }
 
     @GetMapping("/campings")
-    public Page findCampings(@RequestBody CampingSearchCondition condition, Pageable pageable) {
-        return modakdataService.findAllCampingPage(condition, pageable);
+    public Page findCampings(String environmentName,
+                             String operationType,
+                             String regionContains,
+                             Pageable pageable) {
+        CampingSearchCondition campingSearchCondition = new CampingSearchCondition(environmentName, operationType, regionContains);
+        return modakdataService.findAllCampingPage(campingSearchCondition, pageable);
     }
 
 
