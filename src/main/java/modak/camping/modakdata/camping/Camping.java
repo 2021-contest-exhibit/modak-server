@@ -3,10 +3,7 @@ package modak.camping.modakdata.camping;
 import lombok.*;
 import modak.camping.modakdata.environment.Environment;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +30,10 @@ public class Camping {
     private String longitude; // mapx (경도)
     private String latitude; // mapy (위도)
     private String operationType; // faclt_div_nm (운영형태, 사업주체 구분)
+    @Lob
+    private String shortDescription; // lineintro (한줄소개)
+    @Lob
+    private String longDescription; // intro (긴소개)
 
     @OneToMany(mappedBy = "camping")
     private List<Environment> environments = new ArrayList<>(); // lct_cl (캠핑장 환경)
@@ -40,7 +41,7 @@ public class Camping {
     @OneToMany(mappedBy = "camping", cascade = CascadeType.ALL)
     private List<CampingImage> campingImages = new ArrayList<>(); // 이미지
 
-    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String facilities, String longitude, String latitude, String operationType, List<CampingImage> campingImages) {
+    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String facilities, String longitude, String latitude, String operationType, String shortDescription, String longDescription, List<CampingImage> campingImages) {
         this.contentId = contentId;
         this.name = name;
         this.viewCount = viewCount;
@@ -55,6 +56,8 @@ public class Camping {
         this.longitude = longitude;
         this.latitude = latitude;
         this.operationType = operationType;
+        this.shortDescription = shortDescription;
+        this.longDescription = longDescription;
         campingImages.forEach(this::addCampingImage);
     }
 
