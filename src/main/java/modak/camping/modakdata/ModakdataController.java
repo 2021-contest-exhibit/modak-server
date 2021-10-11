@@ -60,8 +60,9 @@ public class ModakdataController {
     public Page findCampings(String environmentName,
                              String operationType,
                              String regionContains,
+                             @RequestParam(required = false, defaultValue = "-1") Long contentId,
                              Pageable pageable) {
-        CampingSearchCondition campingSearchCondition = new CampingSearchCondition(environmentName, operationType, regionContains);
+        CampingSearchCondition campingSearchCondition = new CampingSearchCondition(environmentName, operationType, regionContains, contentId);
         return modakdataService.findAllCampingPage(campingSearchCondition, pageable);
     }
 
