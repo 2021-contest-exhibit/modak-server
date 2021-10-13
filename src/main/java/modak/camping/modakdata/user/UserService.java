@@ -1,7 +1,7 @@
 package modak.camping.modakdata.user;
 
 import lombok.RequiredArgsConstructor;
-import modak.camping.modakdata.request.CreateUserRequestDto;
+import modak.camping.modakdata.dto.request.CreateUserRequestDto;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 

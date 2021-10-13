@@ -3,7 +3,7 @@ package modak.camping.modakdata.good;
 import lombok.RequiredArgsConstructor;
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.camping.CampingRepository;
-import modak.camping.modakdata.request.CreateGoodRequestDto;
+import modak.camping.modakdata.dto.request.CreateGoodRequestDto;
 import modak.camping.modakdata.user.User;
 import modak.camping.modakdata.user.UserRepository;
 import org.springframework.stereotype.Service;

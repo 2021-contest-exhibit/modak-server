@@ -1,4 +1,4 @@
-package modak.camping.modakdata.request;
+package modak.camping.modakdata.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
