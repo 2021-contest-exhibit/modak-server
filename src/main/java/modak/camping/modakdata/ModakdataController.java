@@ -3,6 +3,8 @@ package modak.camping.modakdata;
 import lombok.Data;
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.dto.CampingSearchCondition;
+import modak.camping.modakdata.request.CreateUserRequestDto;
+import modak.camping.modakdata.user.UserService;
 import modak.camping.opendata.Base;
 import modak.camping.opendata.Image;
 import modak.camping.opendata.OpendataService;
@@ -23,6 +25,7 @@ public class ModakdataController {
 
     private final OpendataService opendataService;
     private final ModakdataService modakdataService;
+    private final UserService userService;
 
     @PostMapping("/camping")
     public String saveCamping(@RequestBody Camping camping) throws Exception {
@@ -64,6 +67,11 @@ public class ModakdataController {
                              Pageable pageable) {
         CampingSearchCondition campingSearchCondition = new CampingSearchCondition(environmentName, operationType, regionContains, contentId);
         return modakdataService.findAllCampingPage(campingSearchCondition, pageable);
+    }
+
+    @PostMapping("/user")
+    public String saveUser(CreateUserRequestDto createUserRequestDto) {
+        return userService.save(createUserRequestDto);
     }
 
 
