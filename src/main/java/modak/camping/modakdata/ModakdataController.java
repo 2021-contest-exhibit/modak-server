@@ -72,6 +72,11 @@ public class ModakdataController {
         return modakdataService.findAllCampingPage(campingSearchCondition, pageable);
     }
 
+    @GetMapping("/user")
+    public Page findUser(String email) {
+        return userService.findPageByEmail(email);
+    }
+
     @PostMapping("/user")
     public String saveUser(@RequestBody CreateUserRequestDto createUserRequestDto) {
         return userService.save(createUserRequestDto);

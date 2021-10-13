@@ -1,12 +1,12 @@
 package modak.camping.modakdata.camping;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import modak.camping.modakdata.environment.Environment;
+import modak.camping.modakdata.good.Good;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @ToString
@@ -34,6 +34,10 @@ public class Camping {
     private String shortDescription; // lineintro (한줄소개)
     @Lob
     private String longDescription; // intro (긴소개)
+
+    @OneToMany(mappedBy = "camping")
+    @JsonIgnore
+    private Set<Good> goods = new HashSet<>();
 
     @OneToMany(mappedBy = "camping")
     private List<Environment> environments = new ArrayList<>(); // lct_cl (캠핑장 환경)
