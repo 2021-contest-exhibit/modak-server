@@ -6,6 +6,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import modak.camping.modakdata.dto.CampingSearchCondition;
 import modak.camping.modakdata.environment.QEnvironment;
+import modak.camping.modakdata.good.QGood;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 import static modak.camping.modakdata.camping.QCamping.*;
 import static modak.camping.modakdata.environment.QEnvironment.*;
+import static modak.camping.modakdata.good.QGood.*;
 
 public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
 
@@ -54,10 +56,10 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
 
         QueryResults<Camping> results = queryFactory
                 .selectFrom(camping)
-                .join(camping.environments, environment).fetchJoin()
                 .where(
                         regionContains(condition.getRegionContains()),
                         operationTypeEq(condition.getOperationType()),
+                        StringUtils.isEmpty(condition.getEnvironmentName()) ? null:
                         camping.contentId.in(
                                 JPAExpressions.select(environmentSub.camping.contentId)
                                 .from(environmentSub)
@@ -67,6 +69,7 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(camping.contentId.asc())
                 .fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
