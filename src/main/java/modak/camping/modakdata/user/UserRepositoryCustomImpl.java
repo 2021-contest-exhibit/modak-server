@@ -28,8 +28,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom{
         QueryResults<User> results = queryFactory
                 .selectFrom(user)
                 .distinct()
-                .join(user.goods, good).fetchJoin()
-                .join(good.camping, camping).fetchJoin()
+                .leftJoin(user.goods, good).fetchJoin()
+                .leftJoin(good.camping, camping).fetchJoin()
                 .where(emailEq(email))
                 .fetchResults();
 
