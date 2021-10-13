@@ -3,6 +3,8 @@ package modak.camping.modakdata;
 import lombok.Data;
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.dto.CampingSearchCondition;
+import modak.camping.modakdata.good.GoodService;
+import modak.camping.modakdata.request.CreateGoodRequestDto;
 import modak.camping.modakdata.request.CreateUserRequestDto;
 import modak.camping.modakdata.user.UserService;
 import modak.camping.opendata.Base;
@@ -26,6 +28,7 @@ public class ModakdataController {
     private final OpendataService opendataService;
     private final ModakdataService modakdataService;
     private final UserService userService;
+    private final GoodService goodService;
 
     @PostMapping("/camping")
     public String saveCamping(@RequestBody Camping camping) throws Exception {
@@ -70,8 +73,13 @@ public class ModakdataController {
     }
 
     @PostMapping("/user")
-    public String saveUser(CreateUserRequestDto createUserRequestDto) {
+    public String saveUser(@RequestBody CreateUserRequestDto createUserRequestDto) {
         return userService.save(createUserRequestDto);
+    }
+
+    @PostMapping("/good")
+    public String saveGood(@RequestBody CreateGoodRequestDto createGoodRequestDto) {
+        return goodService.save(createGoodRequestDto);
     }
 
 
