@@ -11,9 +11,10 @@ import modak.camping.opendata.Base;
 import modak.camping.opendata.Image;
 import modak.camping.opendata.OpendataService;
 import modak.camping.response.ResponseDto;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+
 
 import java.util.List;
 import java.util.Map;
@@ -64,11 +65,13 @@ public class ModakdataController {
 
     @GetMapping("/campings")
     public Page findCampings(String environmentName,
-                             String operationType,
-                             String regionContains,
-                             @RequestParam(required = false, defaultValue = "-1") Long contentId,
-                             Pageable pageable) {
-        CampingSearchCondition campingSearchCondition = new CampingSearchCondition(environmentName, operationType, regionContains, contentId);
+                                                      String operationType,
+                                                      String regionContains,
+                                                      @RequestParam(required = false, defaultValue = "-1") Long contentId,
+                                                      String nameContains,
+                                                      Pageable pageable) {
+        CampingSearchCondition campingSearchCondition = new CampingSearchCondition(environmentName, operationType, regionContains, contentId, nameContains);
+
         return modakdataService.findAllCampingPage(campingSearchCondition, pageable);
     }
 
