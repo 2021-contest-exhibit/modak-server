@@ -65,7 +65,8 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
                                 .from(environmentSub)
                                 .where(StringUtils.isEmpty(condition.getEnvironmentName()) ? null : environmentSub.name.eq(condition.getEnvironmentName() )  )
                         ),
-                        contentIdEq(condition.getContentId())
+                        contentIdEq(condition.getContentId()),
+                        nameContains(condition.getNameContains())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -82,6 +83,9 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
     }
     private BooleanExpression contentIdEq(Long contentId) {
         return contentId == -1L ? null : camping.contentId.eq(contentId);
+    }
+    private BooleanExpression nameContains(String name) {
+        return StringUtils.isEmpty(name) ? null : camping.name.contains(name);
     }
 //    private JPAExpressions environmentNameEq(String environmentName) {
 //        return StringUtils.isEmpty(environmentName) ? null : environment.name.eq(environmentName);

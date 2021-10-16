@@ -10,4 +10,5 @@ public class CampingSearchCondition {
     private String operationType;
     private String regionContains;
     private Long contentId;
+    private String nameContains;
 }
