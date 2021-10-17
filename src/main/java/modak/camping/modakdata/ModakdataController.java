@@ -1,5 +1,6 @@
 package modak.camping.modakdata;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.dto.condition.CampingSearchCondition;
@@ -78,9 +79,16 @@ public class ModakdataController {
         return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingPage(campingSearchCondition, pageable));
     }
 
-    @GetMapping("/campings/today")
-    public Page findCampingsToday(Pageable pageable) {
+    @ApiOperation(value = "recommend campings by good", notes = "좋아요 기반 캠핑 추천")
+    @GetMapping("/campings/recommendation/good")
+    public Page findCampingsRecommendationToday(Pageable pageable) {
 
+        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingTodayPage(pageable));
+    }
+
+    @ApiOperation(value = "recommend campings by ai", notes = "ai 기반 캠핑 추천")
+    @GetMapping("/campings/recommendation/ai")
+    public Page findCampingsRecommendationAi(String email, Pageable pageable) {
         return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingTodayPage(pageable));
     }
 
