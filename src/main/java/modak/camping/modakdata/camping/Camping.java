@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.util.*;
 
 @Getter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
