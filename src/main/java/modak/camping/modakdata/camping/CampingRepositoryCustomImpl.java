@@ -4,9 +4,8 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import modak.camping.modakdata.dto.CampingSearchCondition;
+import modak.camping.modakdata.dto.condition.CampingSearchCondition;
 import modak.camping.modakdata.environment.QEnvironment;
-import modak.camping.modakdata.good.QGood;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,8 +17,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static modak.camping.modakdata.camping.QCamping.*;
-import static modak.camping.modakdata.environment.QEnvironment.*;
-import static modak.camping.modakdata.good.QGood.*;
 
 public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
 
