@@ -38,6 +38,7 @@ public class CampingResponseDto {
     private String operationType; // faclt_div_nm (운영형태, 사업주체 구분)
     private String shortDescription; // lineintro (한줄소개)
     private String longDescription; // intro (긴소개)
+    private String thumbnailImageUrl; // first_image_url(대표이미지)
     private Long goodCount;
     private List<Environment> environments = new ArrayList<>(); // lct_cl (캠핑장 환경)
     private List<CampingImage> campingImages = new ArrayList<>(); // 이미지

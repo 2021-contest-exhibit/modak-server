@@ -35,6 +35,7 @@ public class CampingDtoMapper {
                                 camping.getOperationType(),
                                 camping.getShortDescription(),
                                 camping.getLongDescription(),
+                                camping.getThumbnailImageUrl(),
                                 new Long(camping.getGoods().size()),
                                 camping.getEnvironments(),
                                 camping.getCampingImages()

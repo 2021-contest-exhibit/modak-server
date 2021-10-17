@@ -33,6 +33,7 @@ public class Camping {
     private String shortDescription; // lineintro (한줄소개)
     @Lob
     private String longDescription; // intro (긴소개)
+    private String thumbnailImageUrl; // first_image_url(대표이미지)
 
     @OneToMany(mappedBy = "camping")
     @JsonIgnore
@@ -44,7 +45,7 @@ public class Camping {
     @OneToMany(mappedBy = "camping", cascade = CascadeType.ALL)
     private List<CampingImage> campingImages = new ArrayList<>(); // 이미지
 
-    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String facilities, String longitude, String latitude, String operationType, String shortDescription, String longDescription, List<CampingImage> campingImages) {
+    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String facilities, String longitude, String latitude, String operationType, String shortDescription, String longDescription, String thumbnailImageUrl, List<CampingImage> campingImages) {
         this.contentId = contentId;
         this.name = name;
         this.viewCount = viewCount;
@@ -61,6 +62,7 @@ public class Camping {
         this.operationType = operationType;
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
+        this.thumbnailImageUrl = thumbnailImageUrl;
         campingImages.forEach(this::addCampingImage);
     }
 
