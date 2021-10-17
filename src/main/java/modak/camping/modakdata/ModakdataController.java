@@ -2,9 +2,8 @@ package modak.camping.modakdata;
 
 import lombok.Data;
 import modak.camping.modakdata.camping.Camping;
-import modak.camping.modakdata.dto.CampingSearchCondition;
+import modak.camping.modakdata.dto.condition.CampingSearchCondition;
 import modak.camping.modakdata.dto.mapper.CampingDtoMapper;
-import modak.camping.modakdata.dto.response.CampingResponseDto;
 import modak.camping.modakdata.good.GoodService;
 import modak.camping.modakdata.dto.request.CreateGoodRequestDto;
 import modak.camping.modakdata.dto.request.CreateUserRequestDto;
@@ -13,7 +12,6 @@ import modak.camping.opendata.Base;
 import modak.camping.opendata.Image;
 import modak.camping.opendata.OpendataService;
 import modak.camping.response.ResponseDto;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;

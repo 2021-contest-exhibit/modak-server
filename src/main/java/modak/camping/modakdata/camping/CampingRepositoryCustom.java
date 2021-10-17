@@ -1,6 +1,6 @@
 package modak.camping.modakdata.camping;
 
-import modak.camping.modakdata.dto.CampingSearchCondition;
+import modak.camping.modakdata.dto.condition.CampingSearchCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,7 +1,7 @@
 package modak.camping.modakdata;
 
 import modak.camping.modakdata.camping.Camping;
-import modak.camping.modakdata.dto.CampingSearchCondition;
+import modak.camping.modakdata.dto.condition.CampingSearchCondition;
 import modak.camping.opendata.Base;
 import modak.camping.opendata.Image;
 import org.springframework.data.domain.Page;

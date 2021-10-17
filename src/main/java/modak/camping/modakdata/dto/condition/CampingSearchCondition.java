@@ -1,4 +1,4 @@
-package modak.camping.modakdata.dto;
+package modak.camping.modakdata.dto.condition;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
