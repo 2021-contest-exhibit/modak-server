@@ -79,14 +79,14 @@ public class ModakdataController {
         return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingPage(campingSearchCondition, pageable));
     }
 
-    @ApiOperation(value = "recommend campings by good", notes = "좋아요 기반 캠핑 추천")
+    @ApiOperation(value = "recommend campings by good", notes = "전체 유저 좋아요 기반 캠핑 추천")
     @GetMapping("/campings/recommendation/good")
     public Page findCampingsRecommendationToday(Pageable pageable) {
 
         return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingTodayPage(pageable));
     }
 
-    @ApiOperation(value = "recommend campings by ai", notes = "ai 기반 캠핑 추천")
+    @ApiOperation(value = "recommend campings by ai", notes = "하나의 유저 좋아요 ai 기반 캠핑 추천")
     @GetMapping("/campings/recommendation/ai")
     public Page findCampingsRecommendationAi(String email, Pageable pageable) {
         return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingTodayPage(pageable));
