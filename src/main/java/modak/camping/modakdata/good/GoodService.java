@@ -43,9 +43,13 @@ public class GoodService {
 
         if(!userOptional.isPresent() || !campingOptional.isPresent()) throw new IllegalArgumentException();
 
-        goodRepository.deleteByUserAndCamping(userOptional.get(), campingOptional.get());
+        Long resultCount = goodRepository.deleteByUserAndCamping(userOptional.get(), campingOptional.get());
 
-        return "ok";
+        if(resultCount == 0L) {
+            return "이미 삭제됐거나 없는 좋아요 데이터 입니다.";
+        } else {
+            return "ok";
+        }
     }
 
 }
