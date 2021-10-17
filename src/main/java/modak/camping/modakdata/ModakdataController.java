@@ -77,6 +77,13 @@ public class ModakdataController {
         return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingPage(campingSearchCondition, pageable));
     }
 
+    @GetMapping("/campings/today")
+    public Page findCampingsToday(Pageable pageable) {
+
+        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingTodayPage(pageable));
+    }
+
+
     @GetMapping("/user")
     public Page findUser(String email) {
         return userService.findPageByEmail(email);
