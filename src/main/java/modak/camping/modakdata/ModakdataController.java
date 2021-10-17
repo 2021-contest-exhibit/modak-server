@@ -3,6 +3,8 @@ package modak.camping.modakdata;
 import lombok.Data;
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.dto.CampingSearchCondition;
+import modak.camping.modakdata.dto.mapper.CampingDtoMapper;
+import modak.camping.modakdata.dto.response.CampingResponseDto;
 import modak.camping.modakdata.good.GoodService;
 import modak.camping.modakdata.dto.request.CreateGoodRequestDto;
 import modak.camping.modakdata.dto.request.CreateUserRequestDto;
@@ -11,6 +13,7 @@ import modak.camping.opendata.Base;
 import modak.camping.opendata.Image;
 import modak.camping.opendata.OpendataService;
 import modak.camping.response.ResponseDto;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
@@ -30,6 +33,7 @@ public class ModakdataController {
     private final ModakdataService modakdataService;
     private final UserService userService;
     private final GoodService goodService;
+    private final CampingDtoMapper campingDtoMapper;
 
     @PostMapping("/camping")
     public String saveCamping(@RequestBody Camping camping) throws Exception {
@@ -72,7 +76,7 @@ public class ModakdataController {
                                                       Pageable pageable) {
         CampingSearchCondition campingSearchCondition = new CampingSearchCondition(environmentName, operationType, regionContains, contentId, nameContains);
 
-        return modakdataService.findAllCampingPage(campingSearchCondition, pageable);
+        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingPage(campingSearchCondition, pageable));
     }
 
     @GetMapping("/user")
