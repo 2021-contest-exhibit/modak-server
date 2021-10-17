@@ -11,4 +11,5 @@ public interface CampingRepositoryCustom {
     List<String> findCampingAddr();
     Set<String> findCampingOperationType();
     Page<Camping> findAll(CampingSearchCondition condition, Pageable pageable);
+    Page<Camping> findAllToday(Pageable pageable);
 }

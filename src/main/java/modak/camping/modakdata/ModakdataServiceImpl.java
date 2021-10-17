@@ -128,4 +128,9 @@ public class ModakdataServiceImpl implements ModakdataService {
     public Page<Camping> findAllCampingPage(CampingSearchCondition campingSearchCondition, Pageable pageable) {
         return campingRepository.findAll(campingSearchCondition, pageable);
     }
+
+    @Override
+    public Page<Camping> findAllCampingTodayPage(Pageable pageable) {
+        return campingRepository.findAllToday(pageable);
+    }
 }

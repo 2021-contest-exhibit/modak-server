@@ -6,6 +6,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import modak.camping.modakdata.dto.condition.CampingSearchCondition;
 import modak.camping.modakdata.environment.QEnvironment;
+import modak.camping.modakdata.good.QGood;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,6 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static modak.camping.modakdata.camping.QCamping.*;
+import static modak.camping.modakdata.good.QGood.*;
 
 public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
 
@@ -72,6 +74,22 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
+
+    @Override
+    public Page<Camping> findAllToday(Pageable pageable) {
+        QueryResults<Camping> results = queryFactory
+                .select(camping)
+                .from(camping)
+                .leftJoin(camping.goods, good)
+                .groupBy(camping.contentId)
+                .orderBy(good.camping.count().desc(), camping.contentId.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
     private BooleanExpression regionContains(String region) {
         return StringUtils.isEmpty(region) ? null : camping.addr.contains(region);
     }
