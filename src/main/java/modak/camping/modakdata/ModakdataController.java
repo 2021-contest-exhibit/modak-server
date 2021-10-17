@@ -73,23 +73,24 @@ public class ModakdataController {
                                                       String regionContains,
                                                       @RequestParam(required = false, defaultValue = "-1") Long contentId,
                                                       String nameContains,
+                                                      String email,
                                                       Pageable pageable) {
         CampingSearchCondition campingSearchCondition = new CampingSearchCondition(environmentName, operationType, regionContains, contentId, nameContains);
 
-        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingPage(campingSearchCondition, pageable));
+        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingPage(campingSearchCondition, pageable), email);
     }
 
     @ApiOperation(value = "recommend campings by good", notes = "전체 유저 좋아요 기반 캠핑 추천")
     @GetMapping("/campings/recommendation/good")
-    public Page findCampingsRecommendationToday(Pageable pageable) {
+    public Page findCampingsRecommendationToday(String email, Pageable pageable) {
 
-        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingTodayPage(pageable));
+        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingTodayPage(pageable), email);
     }
 
     @ApiOperation(value = "recommend campings by ai", notes = "하나의 유저 좋아요 ai 기반 캠핑 추천")
     @GetMapping("/campings/recommendation/ai")
     public Page findCampingsRecommendationAi(String email, Pageable pageable) {
-        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingTodayPage(pageable));
+        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingTodayPage(pageable), email);
     }
 
 
