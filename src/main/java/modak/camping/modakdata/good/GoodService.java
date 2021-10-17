@@ -24,9 +24,17 @@ public class GoodService {
 
         if(!userOptional.isPresent() || !campingOptional.isPresent()) throw new IllegalArgumentException();
 
-        goodRepository.save(new Good(userOptional.get(), campingOptional.get()));
+        User user = userOptional.get();
+        Camping camping = campingOptional.get();
 
-        return "ok";
+        Optional<Good> goodOptional = goodRepository.findByUserAndCamping(user, camping);
+
+        if(goodOptional.isPresent()) {
+            return "이미 존재하는 좋아요 입니다.";
+        } else {
+            goodRepository.save(new Good(user, camping));
+            return "ok";
+        }
     }
 
     public String delete(DeleteGoodRequestDto deleteGoodRequestDto) {
