@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.camping.CampingRepository;
 import modak.camping.modakdata.dto.request.CreateGoodRequestDto;
+import modak.camping.modakdata.dto.request.DeleteGoodRequestDto;
 import modak.camping.modakdata.user.User;
 import modak.camping.modakdata.user.UserRepository;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,16 @@ public class GoodService {
 
         return "ok";
     }
+
+    public String delete(DeleteGoodRequestDto deleteGoodRequestDto) {
+        Optional<User> userOptional = userRepository.findByEmail(deleteGoodRequestDto.getEmail());
+        Optional<Camping> campingOptional = campingRepository.findById(deleteGoodRequestDto.getContentId());
+
+        if(!userOptional.isPresent() || !campingOptional.isPresent()) throw new IllegalArgumentException();
+
+        goodRepository.deleteByUserAndCamping(userOptional.get(), campingOptional.get());
+
+        return "ok";
+    }
+
 }

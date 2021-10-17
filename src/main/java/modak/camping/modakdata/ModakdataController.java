@@ -4,6 +4,7 @@ import lombok.Data;
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.dto.condition.CampingSearchCondition;
 import modak.camping.modakdata.dto.mapper.CampingDtoMapper;
+import modak.camping.modakdata.dto.request.DeleteGoodRequestDto;
 import modak.camping.modakdata.good.GoodService;
 import modak.camping.modakdata.dto.request.CreateGoodRequestDto;
 import modak.camping.modakdata.dto.request.CreateUserRequestDto;
@@ -99,5 +100,8 @@ public class ModakdataController {
         return goodService.save(createGoodRequestDto);
     }
 
-
+    @DeleteMapping("/good")
+    public String deleteGood(@RequestBody DeleteGoodRequestDto deleteGoodRequestDto){
+        return goodService.delete(deleteGoodRequestDto);
+    }
 }
