@@ -1,10 +1,13 @@
 package modak.camping.modakdata.camping;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import modak.camping.modakdata.dto.condition.CampingSearchCondition;
+import modak.camping.modakdata.dto.request.FindCampingsRequestDto;
 import modak.camping.modakdata.environment.QEnvironment;
 import modak.camping.modakdata.good.QGood;
 import org.apache.commons.lang3.StringUtils;
@@ -73,6 +76,43 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
                 .fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    @Override
+    public Page<Camping> findAll(FindCampingsRequestDto findCampingsRequestDto, Pageable pageable) {
+
+        QueryResults<Camping> results = queryFactory.selectFrom(camping)
+                .where(
+                        operationTypeEqList(findCampingsRequestDto.getEnvironmentEqual()),
+                        regionContainsList(findCampingsRequestDto.getRegionContains())
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(camping.contentId.asc())
+                .fetchResults();
+
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    private BooleanExpression operationTypeEqList(List<String> operationTypeEqualList) {
+        BooleanExpression res = null;
+
+        for (String operationTypeEqual : operationTypeEqualList) {
+            res = res == null ? operationTypeEq(operationTypeEqual) : res.or(operationTypeEq(operationTypeEqual));
+        }
+
+        return res;
+    }
+
+    private BooleanExpression regionContainsList(List<String> regionContainsList) {
+        BooleanExpression res = null;
+
+        for (String regionContains : regionContainsList) {
+            res = res == null ? regionContains(regionContains) : res.or(regionContains(regionContains));
+        }
+
+        return res;
     }
 
     @Override

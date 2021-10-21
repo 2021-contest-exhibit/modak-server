@@ -3,6 +3,7 @@ package modak.camping.modakdata;
 import lombok.RequiredArgsConstructor;
 import modak.camping.modakdata.camping.*;
 import modak.camping.modakdata.dto.condition.CampingSearchCondition;
+import modak.camping.modakdata.dto.request.FindCampingsRequestDto;
 import modak.camping.modakdata.environment.Environment;
 import modak.camping.modakdata.environment.EnvironmentRepository;
 import modak.camping.opendata.Base;
@@ -127,6 +128,11 @@ public class ModakdataServiceImpl implements ModakdataService {
     @Override
     public Page<Camping> findAllCampingPage(CampingSearchCondition campingSearchCondition, Pageable pageable) {
         return campingRepository.findAll(campingSearchCondition, pageable);
+    }
+
+    @Override
+    public Page<Camping> findAllCampingPage(FindCampingsRequestDto findCampingsRequestDto, Pageable pageable) {
+        return campingRepository.findAll(findCampingsRequestDto, pageable);
     }
 
     @Override
