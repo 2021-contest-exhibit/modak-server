@@ -6,6 +6,7 @@ import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.dto.condition.CampingSearchCondition;
 import modak.camping.modakdata.dto.mapper.CampingDtoMapper;
 import modak.camping.modakdata.dto.request.DeleteGoodRequestDto;
+import modak.camping.modakdata.dto.request.FindCampingsRequestDto;
 import modak.camping.modakdata.good.GoodService;
 import modak.camping.modakdata.dto.request.CreateGoodRequestDto;
 import modak.camping.modakdata.dto.request.CreateUserRequestDto;
@@ -78,6 +79,12 @@ public class ModakdataController {
         CampingSearchCondition campingSearchCondition = new CampingSearchCondition(environmentName, operationType, regionContains, contentId, nameContains);
 
         return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingPage(campingSearchCondition, pageable), email);
+    }
+
+    @PostMapping("find-campings")
+    public Page findCampingsByList(String email, Pageable pageable, @RequestBody FindCampingsRequestDto findCampingsRequestDto) {
+
+        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingPage(findCampingsRequestDto, pageable), email);
     }
 
     @ApiOperation(value = "recommend campings by good", notes = "전체 유저 좋아요 기반 캠핑 추천")

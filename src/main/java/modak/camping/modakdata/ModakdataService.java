@@ -2,6 +2,7 @@ package modak.camping.modakdata;
 
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.dto.condition.CampingSearchCondition;
+import modak.camping.modakdata.dto.request.FindCampingsRequestDto;
 import modak.camping.opendata.Base;
 import modak.camping.opendata.Image;
 import org.springframework.data.domain.Page;
@@ -18,5 +19,6 @@ public interface ModakdataService {
     Set<String> findCampingOperationType();
     Set<String> findEnvironmentName();
     Page<Camping> findAllCampingPage(CampingSearchCondition campingSearchCondition, Pageable pageable);
+    Page<Camping> findAllCampingPage(FindCampingsRequestDto findCampingsRequestDto, Pageable pageable);
     Page<Camping> findAllCampingTodayPage(Pageable pageable);
 }
