@@ -74,7 +74,17 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    private Predicate environmentEq(String environmentName, QEnvironment environmentSub) {
+    private BooleanExpression environmentEqList(List<String> environmentEqualList, QEnvironment environmentSub) {
+        BooleanExpression res = null;
+
+        for (String environment : environmentEqualList) {
+            res = res == null ? environmentEq(environment, environmentSub) : res.or(environmentEq(environment, environmentSub));
+        }
+
+        return res;
+    }
+
+    private BooleanExpression environmentEq(String environmentName, QEnvironment environmentSub) {
         return StringUtils.isEmpty(environmentName) ? null:
         camping.contentId.in(
                 JPAExpressions.select(environmentSub.camping.contentId)
@@ -85,11 +95,13 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
 
     @Override
     public Page<Camping> findAll(FindCampingsRequestDto findCampingsRequestDto, Pageable pageable) {
+        QEnvironment environmentSub = new QEnvironment("environmentSub");
 
         QueryResults<Camping> results = queryFactory.selectFrom(camping)
                 .where(
                         operationTypeEqList(findCampingsRequestDto.getEnvironmentEqual()),
-                        regionContainsList(findCampingsRequestDto.getRegionContains())
+                        regionContainsList(findCampingsRequestDto.getRegionContains()),
+                        environmentEqList(findCampingsRequestDto.getEnvironmentEqual(), environmentSub)
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
