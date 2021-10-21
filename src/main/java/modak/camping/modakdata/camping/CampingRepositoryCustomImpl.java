@@ -2,6 +2,7 @@ package modak.camping.modakdata.camping;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
@@ -61,12 +62,7 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
                 .where(
                         regionContains(condition.getRegionContains()),
                         operationTypeEq(condition.getOperationType()),
-                        StringUtils.isEmpty(condition.getEnvironmentName()) ? null:
-                        camping.contentId.in(
-                                JPAExpressions.select(environmentSub.camping.contentId)
-                                .from(environmentSub)
-                                .where(StringUtils.isEmpty(condition.getEnvironmentName()) ? null : environmentSub.name.eq(condition.getEnvironmentName() )  )
-                        ),
+                        environmentEq(condition.getEnvironmentName(), environmentSub),
                         contentIdEq(condition.getContentId()),
                         nameContains(condition.getNameContains())
                 )
@@ -76,6 +72,15 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
                 .fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    private Predicate environmentEq(String environmentName, QEnvironment environmentSub) {
+        return StringUtils.isEmpty(environmentName) ? null:
+        camping.contentId.in(
+                JPAExpressions.select(environmentSub.camping.contentId)
+                .from(environmentSub)
+                .where(environmentSub.name.eq(environmentName )  )
+        );
     }
 
     @Override
