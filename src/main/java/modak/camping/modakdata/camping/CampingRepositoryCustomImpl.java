@@ -74,25 +74,6 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    private BooleanExpression environmentEqList(List<String> environmentEqualList, QEnvironment environmentSub) {
-        BooleanExpression res = null;
-
-        for (String environment : environmentEqualList) {
-            res = res == null ? environmentEq(environment, environmentSub) : res.or(environmentEq(environment, environmentSub));
-        }
-
-        return res;
-    }
-
-    private BooleanExpression environmentEq(String environmentName, QEnvironment environmentSub) {
-        return StringUtils.isEmpty(environmentName) ? null:
-        camping.contentId.in(
-                JPAExpressions.select(environmentSub.camping.contentId)
-                .from(environmentSub)
-                .where(environmentSub.name.eq(environmentName )  )
-        );
-    }
-
     @Override
     public Page<Camping> findAll(FindCampingsRequestDto findCampingsRequestDto, Pageable pageable) {
         QEnvironment environmentSub = new QEnvironment("environmentSub");
@@ -110,6 +91,31 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
 
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    @Override
+    public Page<Camping> findAllToday(Pageable pageable) {
+        QueryResults<Camping> results = queryFactory
+                .select(camping)
+                .from(camping)
+                .leftJoin(camping.goods, good)
+                .groupBy(camping.contentId)
+                .orderBy(good.camping.count().desc(), camping.contentId.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    private BooleanExpression environmentEqList(List<String> environmentEqualList, QEnvironment environmentSub) {
+        BooleanExpression res = null;
+
+        for (String environment : environmentEqualList) {
+            res = res == null ? environmentEq(environment, environmentSub) : res.or(environmentEq(environment, environmentSub));
+        }
+
+        return res;
     }
 
     private BooleanExpression operationTypeEqList(List<String> operationTypeEqualList) {
@@ -132,24 +138,10 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
         return res;
     }
 
-    @Override
-    public Page<Camping> findAllToday(Pageable pageable) {
-        QueryResults<Camping> results = queryFactory
-                .select(camping)
-                .from(camping)
-                .leftJoin(camping.goods, good)
-                .groupBy(camping.contentId)
-                .orderBy(good.camping.count().desc(), camping.contentId.asc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetchResults();
-
-        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
-    }
-
     private BooleanExpression regionContains(String region) {
         return StringUtils.isEmpty(region) ? null : camping.addr.contains(region);
     }
+
     private BooleanExpression operationTypeEq(String operationType) {
         return StringUtils.isEmpty(operationType) ? null : camping.operationType.eq(operationType);
     }
@@ -158,6 +150,14 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
     }
     private BooleanExpression nameContains(String name) {
         return StringUtils.isEmpty(name) ? null : camping.name.contains(name);
+    }
+    private BooleanExpression environmentEq(String environmentName, QEnvironment environmentSub) {
+        return StringUtils.isEmpty(environmentName) ? null:
+                camping.contentId.in(
+                        JPAExpressions.select(environmentSub.camping.contentId)
+                                .from(environmentSub)
+                                .where(environmentSub.name.eq(environmentName )  )
+                );
     }
 //    private JPAExpressions environmentNameEq(String environmentName) {
 //        return StringUtils.isEmpty(environmentName) ? null : environment.name.eq(environmentName);
