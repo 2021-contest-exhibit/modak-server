@@ -78,9 +78,10 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
     public Page<Camping> findAll(FindCampingsRequestDto findCampingsRequestDto, Pageable pageable) {
         QEnvironment environmentSub = new QEnvironment("environmentSub");
 
+
         QueryResults<Camping> results = queryFactory.selectFrom(camping)
                 .where(
-                        operationTypeEqList(findCampingsRequestDto.getEnvironmentEqual()),
+                        operationTypeEqList(findCampingsRequestDto.getOperationTypeEqual()),
                         regionContainsList(findCampingsRequestDto.getRegionContains()),
                         environmentEqList(findCampingsRequestDto.getEnvironmentEqual(), environmentSub),
                         nameContains(findCampingsRequestDto.getNameContains())
