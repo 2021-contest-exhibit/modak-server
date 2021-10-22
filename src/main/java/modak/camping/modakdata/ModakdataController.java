@@ -83,7 +83,8 @@ public class ModakdataController {
 
     @PostMapping("find-campings")
     public Page findCampingsByList(String email, Pageable pageable, @RequestBody FindCampingsRequestDto findCampingsRequestDto) {
-
+        System.out.println("findCampingsRequestDto = " + findCampingsRequestDto.toString());
+        System.out.println(modakdataService.findAllCampingPage(findCampingsRequestDto, pageable));
         return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingPage(findCampingsRequestDto, pageable), email);
     }
 

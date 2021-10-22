@@ -82,7 +82,8 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom{
                 .where(
                         operationTypeEqList(findCampingsRequestDto.getEnvironmentEqual()),
                         regionContainsList(findCampingsRequestDto.getRegionContains()),
-                        environmentEqList(findCampingsRequestDto.getEnvironmentEqual(), environmentSub)
+                        environmentEqList(findCampingsRequestDto.getEnvironmentEqual(), environmentSub),
+                        nameContains(findCampingsRequestDto.getNameContains())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
