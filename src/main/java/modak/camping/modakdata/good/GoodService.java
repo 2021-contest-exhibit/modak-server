@@ -19,8 +19,12 @@ public class GoodService {
     private final CampingRepository campingRepository;
 
     public String save(CreateGoodRequestDto createGoodRequestDto) {
+
+        System.out.println("createGoodRequestDto.toString() = " + createGoodRequestDto.toString());
+
         Optional<User> userOptional = userRepository.findByEmail(createGoodRequestDto.getEmail());
         Optional<Camping> campingOptional = campingRepository.findById(createGoodRequestDto.getContentId());
+
 
         if(!userOptional.isPresent() || !campingOptional.isPresent()) throw new IllegalArgumentException();
 
