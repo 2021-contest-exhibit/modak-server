@@ -1,6 +1,7 @@
 package modak.camping.opendata;
 
 import lombok.Data;
+import modak.camping.opendata.dto.request.PatchBaseRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,12 @@ public class OpendataController {
                 .collect(Collectors.toList());
 
         return baseIntroDtoList;
+    }
+
+    @PatchMapping("/base")
+    public String patchBase(@RequestBody PatchBaseRequestDto patchBaseRequestDto) {
+
+        return opendataService.updateBaseEmbedding(patchBaseRequestDto);
     }
 
     @PostMapping(value = "/image")
