@@ -140,4 +140,12 @@ public class Base implements Opendata{
     private String glampInnerFclty = "";
     @Builder.Default
     private String caravInnerFclty = "";
+
+    @Lob
+    @Builder.Default
+    private String embedding = "";
+
+    public void updateEmbedding(String embedding) {
+        this.embedding = embedding;
+    }
 }

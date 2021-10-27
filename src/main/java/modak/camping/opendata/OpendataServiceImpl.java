@@ -2,7 +2,10 @@ package modak.camping.opendata;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
 import lombok.Data;
+import modak.camping.modakdata.camping.Camping;
+import modak.camping.opendata.dto.request.PatchBaseRequestDto;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +20,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Data
@@ -61,6 +65,20 @@ public class OpendataServiceImpl implements OpendataService {
         tableName = tableName + "Repository";
         JpaRepository jpaRepository = (JpaRepository) getJpaRepositoryDynamic(tableName);
         jpaRepository.save(opendata);
+    }
+
+    @Override
+    @Transactional
+    public String updateBaseEmbedding(PatchBaseRequestDto patchBaseRequestDto) {
+        Optional<Base> baseOptional = baseRepository.findById(patchBaseRequestDto.getContentId());
+
+        if(!baseOptional.isPresent()) new IllegalArgumentException();
+
+        Base base = baseOptional.get();
+
+        base.updateEmbedding(patchBaseRequestDto.getEmbedding());
+
+        return "ok";
     }
 
     private void getImageDataJson(String tableName, Long contentId) throws Exception {
