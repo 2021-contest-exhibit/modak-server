@@ -1,7 +1,11 @@
 package modak.camping.modakdata;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.api.client.json.Json;
 import io.swagger.annotations.ApiOperation;
+import java.util.ArrayList;
 import lombok.Data;
+import modak.camping.modakdata.ai.AiService;
 import modak.camping.modakdata.camping.Camping;
 import modak.camping.modakdata.dto.condition.CampingSearchCondition;
 import modak.camping.modakdata.dto.mapper.CampingDtoMapper;
@@ -15,7 +19,12 @@ import modak.camping.opendata.Base;
 import modak.camping.opendata.Image;
 import modak.camping.opendata.OpendataService;
 import modak.camping.response.ResponseDto;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 
@@ -24,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/modak")
@@ -35,6 +45,7 @@ public class ModakdataController {
     private final UserService userService;
     private final GoodService goodService;
     private final CampingDtoMapper campingDtoMapper;
+    private final AiService aiService;
 
     @PostMapping("/camping")
     public String saveCamping(@RequestBody Camping camping) throws Exception {
@@ -97,8 +108,10 @@ public class ModakdataController {
 
     @ApiOperation(value = "recommend campings by ai", notes = "하나의 유저 좋아요 ai 기반 캠핑 추천")
     @GetMapping("/campings/recommendation/ai")
-    public Page findCampingsRecommendationAi(String email, Pageable pageable) {
-        return campingDtoMapper.CampingToResponse(modakdataService.findAllCampingTodayPage(pageable), email);
+    public Page findCampingsRecommendationAi(String email, Pageable pageable)
+        throws JsonProcessingException {
+
+        return campingDtoMapper.CampingToResponse(aiService.getRecommendCamping(email,pageable), email);
     }
 
 
