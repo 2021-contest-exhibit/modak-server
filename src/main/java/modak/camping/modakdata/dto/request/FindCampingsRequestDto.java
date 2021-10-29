@@ -15,5 +15,6 @@ public class FindCampingsRequestDto {
     List<String> operationTypeEqual;
     List<String> regionContains;
     List<String> environmentEqual;
+    List<String> facilityEqual;
     String nameContains;
 }
