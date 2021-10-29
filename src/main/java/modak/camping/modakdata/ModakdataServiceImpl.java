@@ -137,6 +137,9 @@ public class ModakdataServiceImpl implements ModakdataService {
   }
 
   @Override
+  public Set<String> findFacilityName() { return facilityRepository.findName(); }
+
+  @Override
   public Page<Camping> findAllCampingPage(CampingSearchCondition campingSearchCondition,
       Pageable pageable) {
     return campingRepository.findAll(campingSearchCondition, pageable);

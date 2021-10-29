@@ -18,6 +18,7 @@ public interface ModakdataService {
     Set<String> findCampingAddr();
     Set<String> findCampingOperationType();
     Set<String> findEnvironmentName();
+    Set<String> findFacilityName();
     Page<Camping> findAllCampingPage(CampingSearchCondition campingSearchCondition, Pageable pageable);
     Page<Camping> findAllCampingPage(FindCampingsRequestDto findCampingsRequestDto, Pageable pageable);
     Page<Camping> findAllCampingTodayPage(Pageable pageable);
