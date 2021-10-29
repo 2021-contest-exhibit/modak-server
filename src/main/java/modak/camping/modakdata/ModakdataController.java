@@ -79,6 +79,12 @@ public class ModakdataController {
         return new ResponseDto(campingEnvironmentSet);
     }
 
+    @GetMapping("/campings/facilities")
+    public ResponseDto findCampingFacilities() {
+        Set<String> campingFacilitySet = modakdataService.findFacilityName();
+        return new ResponseDto(campingFacilitySet);
+    }
+
     @GetMapping("/campings")
     public Page findCampings(String environmentName,
                                                       String operationType,
