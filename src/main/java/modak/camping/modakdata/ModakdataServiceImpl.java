@@ -6,6 +6,8 @@ import modak.camping.modakdata.dto.condition.CampingSearchCondition;
 import modak.camping.modakdata.dto.request.FindCampingsRequestDto;
 import modak.camping.modakdata.environment.Environment;
 import modak.camping.modakdata.environment.EnvironmentRepository;
+import modak.camping.modakdata.facility.Facility;
+import modak.camping.modakdata.facility.FacilityRepository;
 import modak.camping.opendata.Base;
 import modak.camping.opendata.Image;
 import org.springframework.data.domain.Page;
@@ -18,125 +20,136 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ModakdataServiceImpl implements ModakdataService {
-    private final CampingRepository campingRepository;
-    private final CampingFirestoreRepository campingFirestoreRepository;
-    private final EnvironmentRepository environmentRepository;
 
-    @Override
-    public String saveCamping(Camping camping) throws Exception {
+  private final CampingRepository campingRepository;
+  private final CampingFirestoreRepository campingFirestoreRepository;
+  private final EnvironmentRepository environmentRepository;
+  private final FacilityRepository facilityRepository;
+
+  @Override
+  public String saveCamping(Camping camping) throws Exception {
 //        campingFirestoreRepository.save(camping);
-        campingRepository.save(camping);
+    campingRepository.save(camping);
 
-        return "ok";
-    }
+    return "ok";
+  }
 
-    @Override
-    public String saveCampings(List<Base> baseList, Map<Long, List<Image>> imageMap) {
-        baseList.stream()
-                .forEach(base -> {
+  @Override
+  public String saveCampings(List<Base> baseList, Map<Long, List<Image>> imageMap) {
+    baseList.stream()
+        .forEach(base -> {
 
-                    List<Image> imageList = imageMap.get(base.getContentId());
-                    List<CampingImage> campingImageList;
+          List<Image> imageList = imageMap.get(base.getContentId());
+          List<CampingImage> campingImageList;
 
-                    if(imageList == null ) {
-                        campingImageList = new ArrayList<>();
-                    } else {
-                        List<Map<String, Object>> jsonDataToListMap = imageMap.get(base.getContentId()).get(0).getJsonDataToListMap();
-                        campingImageList = listMapToCampingImageList(jsonDataToListMap);
-                    }
+          if (imageList == null) {
+            campingImageList = new ArrayList<>();
+          } else {
+            List<Map<String, Object>> jsonDataToListMap = imageMap.get(base.getContentId()).get(0)
+                .getJsonDataToListMap();
+            campingImageList = listMapToCampingImageList(jsonDataToListMap);
+          }
 
-                    Camping camping = new Camping(
-                            base.getContentId(),
-                            base.getFacltNm(),
-                            0L,
-                            base.getAddr1() + "\t" + base.getAddr2(),
-                            base.getTel(),
-                            base.getInduty(),
-                            base.getOperPdCl(),
-                            base.getOperDeCl(),
-                            base.getResveCl(),
-                            base.getPosblFcltyCl(),
-                            base.getSbrsCl(),
-                            base.getMapX(),
-                            base.getMapY(),
-                            base.getFacltDivNm(),
-                            base.getLineIntro(),
-                            base.getIntro(),
-                            base.getFirstImageUrl(),
-                            campingImageList
-                    );
+          Camping camping = new Camping(
+              base.getContentId(),
+              base.getFacltNm(),
+              0L,
+              base.getAddr1() + "\t" + base.getAddr2(),
+              base.getTel(),
+              base.getInduty(),
+              base.getOperPdCl(),
+              base.getOperDeCl(),
+              base.getResveCl(),
+              base.getPosblFcltyCl(),
+              base.getMapX(),
+              base.getMapY(),
+              base.getFacltDivNm(),
+              base.getLineIntro(),
+              base.getIntro(),
+              base.getFirstImageUrl(),
+              campingImageList
+          );
 
+          try {
+            saveCamping(camping);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
 
-                    try {
-                        saveCamping(camping);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+          if (base.getLctCl().contains(",")) {
 
-                    if(!base.getLctCl().contains(",")) return;
+            Arrays.stream(base.getLctCl().split(",")).forEach(ev -> {
 
-                    Arrays.stream(base.getLctCl().split(",")).forEach(ev -> {
+              Environment environment = new Environment(ev, camping);
+              environmentRepository.save(environment);
+            });
+          }
 
-                        Environment environment = new Environment(ev, camping);
-                        environmentRepository.save(environment);
-                    });
+          if (base.getSbrsCl().contains(",")) {
 
-                });
+            Arrays.stream(base.getSbrsCl().split(",")).forEach(sbrs -> {
 
+              Facility facility = new Facility(sbrs, camping);
+              facilityRepository.save(facility);
+            });
+          }
 
+        });
 
-        return "ok";
-    }
+    return "ok";
+  }
 
-    private List<CampingImage> listMapToCampingImageList(List<Map<String,Object>> listMap) {
+  private List<CampingImage> listMapToCampingImageList(List<Map<String, Object>> listMap) {
 
-        List<CampingImage> campingImageList = listMap.stream()
-                .map(hashMap -> new CampingImage(
-                        String.valueOf( hashMap.get("serialnum")) ,
-                        String.valueOf( hashMap.get("modifiedtime") ),
-                        String.valueOf( hashMap.get("imageUrl"))
-                        )
-                )
-                .collect(Collectors.toList());
+    List<CampingImage> campingImageList = listMap.stream()
+        .map(hashMap -> new CampingImage(
+                String.valueOf(hashMap.get("serialnum")),
+                String.valueOf(hashMap.get("modifiedtime")),
+                String.valueOf(hashMap.get("imageUrl"))
+            )
+        )
+        .collect(Collectors.toList());
 
-        return campingImageList;
-    }
+    return campingImageList;
+  }
 
-    @Override
-    public Set<String> findCampingAddr() {
-        List<String> campingAddrList = campingRepository.findCampingAddr();
+  @Override
+  public Set<String> findCampingAddr() {
+    List<String> campingAddrList = campingRepository.findCampingAddr();
 
-        Set<String> campingAddrSet = campingAddrList
-                .stream()
-                .map(addr -> addr.split(" ")[0])
-                .filter(addr -> addr.length() < 10) // 이상하게 들어가 있는 데이터 제거
-                .collect(Collectors.toSet());
+    Set<String> campingAddrSet = campingAddrList
+        .stream()
+        .map(addr -> addr.split(" ")[0])
+        .filter(addr -> addr.length() < 10) // 이상하게 들어가 있는 데이터 제거
+        .collect(Collectors.toSet());
 
-        return campingAddrSet;
-    }
+    return campingAddrSet;
+  }
 
-    @Override
-    public Set<String> findCampingOperationType() {
-        return campingRepository.findCampingOperationType();
-    }
+  @Override
+  public Set<String> findCampingOperationType() {
+    return campingRepository.findCampingOperationType();
+  }
 
-    @Override
-    public Set<String> findEnvironmentName() {
-        return environmentRepository.findName();
-    }
+  @Override
+  public Set<String> findEnvironmentName() {
+    return environmentRepository.findName();
+  }
 
-    @Override
-    public Page<Camping> findAllCampingPage(CampingSearchCondition campingSearchCondition, Pageable pageable) {
-        return campingRepository.findAll(campingSearchCondition, pageable);
-    }
+  @Override
+  public Page<Camping> findAllCampingPage(CampingSearchCondition campingSearchCondition,
+      Pageable pageable) {
+    return campingRepository.findAll(campingSearchCondition, pageable);
+  }
 
-    @Override
-    public Page<Camping> findAllCampingPage(FindCampingsRequestDto findCampingsRequestDto, Pageable pageable) {
-        return campingRepository.findAll(findCampingsRequestDto, pageable);
-    }
+  @Override
+  public Page<Camping> findAllCampingPage(FindCampingsRequestDto findCampingsRequestDto,
+      Pageable pageable) {
+    return campingRepository.findAll(findCampingsRequestDto, pageable);
+  }
 
-    @Override
-    public Page<Camping> findAllCampingTodayPage(Pageable pageable) {
-        return campingRepository.findAllToday(pageable);
-    }
+  @Override
+  public Page<Camping> findAllCampingTodayPage(Pageable pageable) {
+    return campingRepository.findAllToday(pageable);
+  }
 }
