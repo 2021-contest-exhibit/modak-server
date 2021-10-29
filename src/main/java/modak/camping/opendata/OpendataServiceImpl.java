@@ -48,7 +48,17 @@ public class OpendataServiceImpl implements OpendataService {
                     }
                 });
             } else {
-                getImageDataJson(tableName, contentId);
+                List<Base> baseList = this.findAll("base");
+
+                for (Base base : baseList) {
+                    if(base.getContentId() < contentId) continue;
+
+                    try {
+                        getImageDataJson(tableName, base.getContentId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
