@@ -37,7 +37,7 @@ public class CampingDtoMapper {
                   camping.getOperationDays(),
                   camping.getReservationWay(),
                   camping.getNearbyFacilitiesAvailable(),
-                  camping.getFacilities().stream().map(facility -> facility.getName()).collect(
+                  camping.getFacilityList().stream().map(facility -> facility.getName()).collect(
                       Collectors.joining(",")),
                   camping.getLongitude(),
                   camping.getLatitude(),

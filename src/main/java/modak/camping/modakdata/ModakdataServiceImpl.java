@@ -67,7 +67,8 @@ public class ModakdataServiceImpl implements ModakdataService {
               base.getLineIntro(),
               base.getIntro(),
               base.getFirstImageUrl(),
-              campingImageList
+              campingImageList,
+              base.getSbrsCl()
           );
 
           try {
