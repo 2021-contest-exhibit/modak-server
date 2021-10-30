@@ -85,7 +85,7 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom {
             operationTypeEqList(findCampingsRequestDto.getOperationTypeEqual()),
             regionContainsList(findCampingsRequestDto.getRegionContains()),
             environmentEqList(findCampingsRequestDto.getEnvironmentEqual(), environmentSub),
-            facilityEqList(findCampingsRequestDto.getFacilityEqual(), facilitySub),
+            facilityEqual(findCampingsRequestDto.getFacilityEqual(), facilitySub),
             nameContains(findCampingsRequestDto.getNameContains())
         )
         .offset(pageable.getOffset())
@@ -109,17 +109,6 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom {
         .fetchResults();
 
     return new PageImpl<>(results.getResults(), pageable, results.getTotal());
-  }
-
-  private BooleanExpression facilityEqList(List<String> facilityEualList, QFacility facilitySub) {
-    BooleanExpression res = null;
-
-    for (String facility : facilityEualList) {
-      res = res == null ? facilityEq(facility, facilitySub)
-          : res.and(facilityEq(facility, facilitySub));
-    }
-
-    return res;
   }
 
   private BooleanExpression environmentEqList(List<String> environmentEqualList,
@@ -180,12 +169,14 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom {
         );
   }
 
-  private BooleanExpression facilityEq(String facilityName, QFacility facilitySub) {
-    return StringUtils.isEmpty(facilityName) ? null :
+  private BooleanExpression facilityEqual(List<String> facilityNameList, QFacility facilitySub) {
+    return facilityNameList.size() == 0 ? null:
         camping.contentId.in(
             JPAExpressions.select(facilitySub.camping.contentId)
-                .from(facilitySub)
-                .where(facilitySub.name.eq(facilityName))
+              .from(facilitySub)
+              .where(facilitySub.name.in(facilityNameList))
+              .groupBy(facilitySub.camping.contentId)
+              .having(facilitySub.camping.contentId.count().eq( Long.valueOf(facilityNameList.size()) ))
         );
   }
 }
