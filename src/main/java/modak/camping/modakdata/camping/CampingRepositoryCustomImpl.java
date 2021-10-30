@@ -84,8 +84,8 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom {
         .where(
             operationTypeEqList(findCampingsRequestDto.getOperationTypeEqual()),
             regionContainsList(findCampingsRequestDto.getRegionContains()),
-            environmentEqList(findCampingsRequestDto.getEnvironmentEqual(), environmentSub),
-            facilityEqList(findCampingsRequestDto.getFacilityEqual(), facilitySub),
+            environmentEqual(findCampingsRequestDto.getEnvironmentEqual(), environmentSub),
+            facilityEqual(findCampingsRequestDto.getFacilityEqual(), facilitySub),
             nameContains(findCampingsRequestDto.getNameContains())
         )
         .offset(pageable.getOffset())
@@ -109,29 +109,6 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom {
         .fetchResults();
 
     return new PageImpl<>(results.getResults(), pageable, results.getTotal());
-  }
-
-  private BooleanExpression facilityEqList(List<String> facilityEualList, QFacility facilitySub) {
-    BooleanExpression res = null;
-
-    for (String facility : facilityEualList) {
-      res = res == null ? facilityEq(facility, facilitySub)
-          : res.and(facilityEq(facility, facilitySub));
-    }
-
-    return res;
-  }
-
-  private BooleanExpression environmentEqList(List<String> environmentEqualList,
-      QEnvironment environmentSub) {
-    BooleanExpression res = null;
-
-    for (String environment : environmentEqualList) {
-      res = res == null ? environmentEq(environment, environmentSub)
-          : res.or(environmentEq(environment, environmentSub));
-    }
-
-    return res;
   }
 
   private BooleanExpression operationTypeEqList(List<String> operationTypeEqualList) {
@@ -180,12 +157,26 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom {
         );
   }
 
-  private BooleanExpression facilityEq(String facilityName, QFacility facilitySub) {
-    return StringUtils.isEmpty(facilityName) ? null :
+  private BooleanExpression environmentEqual(List<String> environmentList,
+      QEnvironment environmentSub) {
+    return environmentList.size() == 0 ? null :
+        camping.contentId.in(
+            JPAExpressions.select(environmentSub.camping.contentId)
+                .from(environmentSub)
+                .where(environmentSub.name.in(environmentList))
+                .groupBy(environmentSub.camping.contentId)
+        );
+  }
+
+  private BooleanExpression facilityEqual(List<String> facilityNameList, QFacility facilitySub) {
+    return facilityNameList.size() == 0 ? null :
         camping.contentId.in(
             JPAExpressions.select(facilitySub.camping.contentId)
                 .from(facilitySub)
-                .where(facilitySub.name.eq(facilityName))
+                .where(facilitySub.name.in(facilityNameList))
+                .groupBy(facilitySub.camping.contentId)
+                .having(
+                    facilitySub.camping.contentId.count().eq(Long.valueOf(facilityNameList.size())))
         );
   }
 }
