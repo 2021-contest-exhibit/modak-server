@@ -1,5 +1,6 @@
 package modak.camping.modakdata.camping;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import modak.camping.modakdata.environment.Environment;
@@ -46,9 +47,10 @@ public class Camping {
     private List<CampingImage> campingImages = new ArrayList<>(); // 이미지
 
     @OneToMany(mappedBy = "camping")
-    private List<Facility> facilities = new ArrayList<>(); // sbrs_cl (캠핑장 시설정보)
+    private List<Facility> facilityList = new ArrayList<>(); // sbrs_cl (캠핑장 시설정보)
+    private String facilities; // sbrs_cl (캠핑장 시설정보)
 
-    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String longitude, String latitude, String operationType, String shortDescription, String longDescription, String thumbnailImageUrl, List<CampingImage> campingImages) {
+    public Camping(Long contentId, String name, Long viewCount, String addr, String phoneNumber, String type, String operationSeasons, String operationDays, String reservationWay, String nearbyFacilitiesAvailable, String longitude, String latitude, String operationType, String shortDescription, String longDescription, String thumbnailImageUrl, List<CampingImage> campingImages, String facilities) {
         this.contentId = contentId;
         this.name = name;
         this.viewCount = viewCount;
@@ -65,6 +67,7 @@ public class Camping {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
         this.thumbnailImageUrl = thumbnailImageUrl;
+        this.facilities = facilities;
         campingImages.forEach(this::addCampingImage);
     }
 

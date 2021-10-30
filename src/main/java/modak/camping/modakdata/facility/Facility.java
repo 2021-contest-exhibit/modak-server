@@ -40,6 +40,6 @@ public class Facility {
 
   private void changeCamping(Camping camping) {
     this.camping = camping;
-    camping.getFacilities().add(this);
+    camping.getFacilityList().add(this);
   }
 }
