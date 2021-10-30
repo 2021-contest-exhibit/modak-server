@@ -1,6 +1,7 @@
 package modak.camping.modakdata.user;
 
 
+import javax.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
 
