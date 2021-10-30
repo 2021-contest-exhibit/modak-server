@@ -69,7 +69,7 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom {
         )
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
-        .orderBy(camping.contentId.asc())
+        .orderBy(good.camping.count().desc(), camping.contentId.asc())
         .fetchResults();
 
     return new PageImpl<>(results.getResults(), pageable, results.getTotal());
@@ -90,7 +90,7 @@ public class CampingRepositoryCustomImpl implements CampingRepositoryCustom {
         )
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
-        .orderBy(camping.contentId.asc())
+        .orderBy(good.camping.count().desc(), camping.contentId.asc())
         .fetchResults();
 
     return new PageImpl<>(results.getResults(), pageable, results.getTotal());
