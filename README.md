@@ -1,4 +1,8 @@
+
 # 1. 환경설정 및 실행
+
+<details> <summary> 1. mysql </summary> 
+
 ## 1. mysql 
 - 도커 mysql 명령어
 
@@ -27,9 +31,15 @@ mysql:5.7 --character-set-server=utf8 --collation-server=utf8_unicode_ci
 
 - db 생성
 `mysql> create database modak;`
-      
+
+</details>      
+
+<details> <summary> 2. spring boot 실행 </summary> 
+
 ## 2. spring boot 실행
 - `./gradlew bootRun`
+
+</details>
 
 # 2. 개발 기간
 
