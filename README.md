@@ -1,6 +1,4 @@
-# camping
-
-
+# 1. 환경설정 및 실행
 ## 1. mysql 
 - 도커 mysql 명령어
 
@@ -32,3 +30,19 @@ mysql:5.7 --character-set-server=utf8 --collation-server=utf8_unicode_ci
       
 ## 2. spring boot 실행
 - `./gradlew bootRun`
+
+# 2. 개발 기간
+
+# 3. 결과
+
+# 4. 제안 배경 & 기획 의도
+
+# 5. 요구분석
+
+# 6. 개발 환경 및 개발 언어
+
+# 7. DB 설계
+
+# 8. 주요기능 
+
+ 
